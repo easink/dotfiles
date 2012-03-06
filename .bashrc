@@ -7,8 +7,8 @@ if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
     c_reset='\[\e[0m\]'
     c_user='\[\e[36m\]'
     c_path='\[\e[37m\]'
-    c_git_clean='\[\e[0;33m\]'
-    c_git_dirty='\[\e[0;32m\]'
+    c_git_clean='\[\e[0;32m\]'
+    c_git_dirty='\[\e[0;33m\]'
 else
     c_reset=
     c_user=
