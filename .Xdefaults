@@ -1,0 +1,126 @@
+*cursor                                 : left_ptr
+xv*cursor                               : 68
+
+!-----------------------------------------------------------------------------!
+! xterm                                                                       !
+!-----------------------------------------------------------------------------!
+
+URxvt.background:	midnightblue
+URxvt.foreground:	wheat
+!URxvt.color7:		gray90
+!URxvt.colorBD:		#ffffff
+!URxvt.cursorColor:	#e0e080
+!URxvt.throughColor:	#8080f0
+!URxvt.highlightColor:	#f0f0f0
+
+URxvt.saveLines:	8192
+URxvt.geometry:		80x36
+
+URxvt.scrollBar:	false
+URxvt.loginShell:       true
+!XTerm.VT100.scrollTtyOutput             : false
+!XTerm.VT100.scrollKey                   : true
+
+!*VT100*colorMode: on
+!*VT100*dynamicColors: on
+
+!*VT100*color0: black
+!*VT100*color1: #CC0000
+!*VT100*color2: #00CC00
+!*VT100*color3: #CCCC00
+!*VT100*color4: #0000CC
+!*VT100*color5: #CC00CC
+!*VT100*color6: #00CCCC
+!*VT100*color7: #E5E5E5
+!*VT100*color8: #666666
+!*VT100*color9: #FF0000
+!*VT100*color10: #00FF00
+!*VT100*color11: #FFFF00
+!*VT100*color12: #0000FF
+!*VT100*color13: #FF00FF
+!*VT100*color14: #00FFFF
+!*VT100*color15: #FFFFFF
+!*VT100*colorUL: yellow
+!*VT100*colorBD: white
+
+!XTerm*fontMenu.Label:  VT Fonts
+!XTerm*fontMenu*fontdefault*Label:    Default
+!XTerm*fontMenu*font1*Label:  Unreadable
+!XTerm*VT100*font1:           nil2
+!XTerm*fontMenu*font2*Label:  Tiny
+!XTerm*VT100*font2:           5x7
+!XTerm*fontMenu*font3*Label:  Small
+!XTerm*VT100*font3:           fixed
+!XTerm*fontMenu*font4*Label:  Medium
+!XTerm*VT100*font4:           8x16
+!XTerm*fontMenu*font5*Label:  Large
+!XTerm*VT100*font5:           10x20
+!XTerm*fontMenu*font6*Label:  Huge
+!XTerm*VT100*font6:           12x24
+!XTerm*fontMenu*fontescape*Label:     Escape Sequence
+!XTerm*fontMenu*fontsel*Label:                Selection
+
+!-----------------------------------------------------------------------------!
+! XTerm                                                                       !
+!-----------------------------------------------------------------------------!
+XTerm*utf8				: 1
+XTerm.SimpleMenu*background             : grey
+XTerm.SimpleMenu*foreground             : gray30
+XTerm.SimpleMenu.cursor                 : right_ptr
+XTerm.SimpleMenu.SmeBSB.font            : -adobe-helvetica-medium-r-normal-*-12-*-75-75-*-*-*-*
+XTerm.SimpleMenu.menuLabel.font         : -adobe-helvetica-bold-r-normal-*-14-*-75-75-*-*-*-*
+
+XTerm.VT100.Translations: #override\n\
+    <Key>BackSpace: string(0x7F)\n\
+    <Key>Delete:    string(0x04)\n\
+    <Key>Home:      string(0x01)\n\
+    <Key>End:       string(0x05)
+        
+
+XTerm*saveLines:                1000
+XTerm*background                :midnightblue
+XTerm*foreground                :wheat
+XTerm.VT100.geometry                  : 80x36
+
+XTerm.VT100.scrollTtyOutput             : false
+XTerm.VT100.scrollKey                   : true
+
+*VT100*colorMode: on
+*VT100*dynamicColors: on
+
+*VT100*color0: black
+*VT100*color1: #CC0000
+*VT100*color2: #00CC00
+*VT100*color3: #CCCC00
+*VT100*color4: #0000CC
+*VT100*color5: #CC00CC
+*VT100*color6: #00CCCC
+*VT100*color7: #E5E5E5
+*VT100*color8: #666666
+*VT100*color9: #FF0000
+*VT100*color10: #00FF00
+*VT100*color11: #FFFF00
+*VT100*color12: #0000FF
+*VT100*color13: #FF00FF
+*VT100*color14: #00FFFF
+*VT100*color15: #FFFFFF
+*VT100*colorUL: yellow
+*VT100*colorBD: white
+
+XTerm*fontMenu.Label:  VT Fonts
+XTerm*fontMenu*fontdefault*Label:    Default
+XTerm*fontMenu*font1*Label:  Unreadable
+XTerm*VT100*font1:           nil2
+XTerm*fontMenu*font2*Label:  Tiny
+XTerm*VT100*font2:           5x7
+XTerm*fontMenu*font3*Label:  Small
+XTerm*VT100*font3:           fixed
+XTerm*fontMenu*font4*Label:  Medium
+XTerm*VT100*font4:           8x16
+XTerm*fontMenu*font5*Label:  Large
+XTerm*VT100*font5:           10x20
+XTerm*fontMenu*font6*Label:  Huge
+XTerm*VT100*font6:           12x24
+XTerm*fontMenu*fontescape*Label:     Escape Sequence
+XTerm*fontMenu*fontsel*Label:                Selection
+
