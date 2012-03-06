@@ -5,10 +5,10 @@
 # Configure colors, if available.
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
     c_reset='\[\e[0m\]'
-    c_user='\[\033[36m\]'
+    c_user='\[\e[36m\]'
     c_path='\[\e[37m\]'
-    c_git_clean='\[\e[0;36m\]'
-    c_git_dirty='\[\e[0;35m\]'
+    c_git_clean='\[\e[0;33m\]'
+    c_git_dirty='\[\e[0;32m\]'
 else
     c_reset=
     c_user=
@@ -16,7 +16,7 @@ else
     c_git_clean=
     c_git_dirty=
 fi
-    PS1="[\[\e[36m\]\u@\h:\[\e[37m\]\w\[\e[0m\]] "
+#    PS1="[\[\e[36m\]\u@\h:\[\e[37m\]\w\[\e[0m\]] "
 
 # Function to assemble the Git part of our prompt.
 git_prompt ()
@@ -33,7 +33,7 @@ git_prompt ()
         git_color="$c_git_dirty"
     fi
 
-    echo " [$git_color$git_branch${c_reset}]"
+    echo " ($git_color$git_branch${c_reset})"
 }
 
 # Thy holy prompt.
