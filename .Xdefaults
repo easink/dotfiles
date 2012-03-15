@@ -5,19 +5,19 @@ xv*cursor                               : 68
 ! xterm                                                                       !
 !-----------------------------------------------------------------------------!
 
-URxvt.background:	midnightblue
-URxvt.foreground:	wheat
+URxvt*background:	midnightblue
+URxvt*foreground:	wheat
 !URxvt.color7:		gray90
 !URxvt.colorBD:		#ffffff
 !URxvt.cursorColor:	#e0e080
 !URxvt.throughColor:	#8080f0
 !URxvt.highlightColor:	#f0f0f0
 
-URxvt.saveLines:	8192
-URxvt.geometry:		80x36
+URxvt*saveLines:	8192
+URxvt*geometry:		80x36
 
-URxvt.scrollBar:	false
-URxvt.loginShell:       true
+URxvt*scrollBar:	false
+URxvt*loginShell:       true
 !XTerm.VT100.scrollTtyOutput             : false
 !XTerm.VT100.scrollKey                   : true
 
