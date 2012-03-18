@@ -5,8 +5,8 @@ xv*cursor                               : 68
 ! xterm                                                                       !
 !-----------------------------------------------------------------------------!
 
-URxvt*background:	midnightblue
-URxvt*foreground:	wheat
+!!!URxvt*background:	midnightblue
+!!!URxvt*foreground:	wheat
 !URxvt.color7:		gray90
 !URxvt.colorBD:		#ffffff
 !URxvt.cursorColor:	#e0e080
@@ -78,8 +78,8 @@ XTerm.VT100.Translations: #override\n\
         
 
 XTerm*saveLines:                1000
-XTerm*background                :midnightblue
-XTerm*foreground                :wheat
+!!!XTerm*background                :midnightblue
+!!!XTerm*foreground                :wheat
 XTerm.VT100.geometry                  : 80x36
 
 XTerm.VT100.scrollTtyOutput             : false
@@ -88,24 +88,53 @@ XTerm.VT100.scrollKey                   : true
 *VT100*colorMode: on
 *VT100*dynamicColors: on
 
-*VT100*color0: black
-*VT100*color1: #CC0000
-*VT100*color2: #00CC00
-*VT100*color3: #CCCC00
-*VT100*color4: #0000CC
-*VT100*color5: #CC00CC
-*VT100*color6: #00CCCC
-*VT100*color7: #E5E5E5
-*VT100*color8: #666666
-*VT100*color9: #FF0000
-*VT100*color10: #00FF00
-*VT100*color11: #FFFF00
-*VT100*color12: #0000FF
-*VT100*color13: #FF00FF
-*VT100*color14: #00FFFF
-*VT100*color15: #FFFFFF
-*VT100*colorUL: yellow
-*VT100*colorBD: white
+*background: #000000
+*foreground: #807855
+!black
+*color0: #262729
+*color8: #555544
+!red
+*color1: #ce5c00
+*color9: #f57900
+!green
+!#*color2: #6b862f
+!#*color10: #89b83f
+*color2: #668800
+*color10: #88aa22
+!brown/yellow
+*color3: #B88B10
+*color11: #FFC135
+!blue
+*color4: #5485a4
+*color12: #85A8C0
+!magenta
+*color5: #85608b
+*color13: #ad7fa8
+!cyan
+*color6: #807855
+*color14: #99916A
+!white
+*color7: #767779
+*color15: #b6b8b9
+
+!*color0: black
+!*color1: #CC0000
+!*color2: #00CC00
+!*color3: #CCCC00
+!*color4: #0000CC
+!*color5: #CC00CC
+!*color6: #00CCCC
+!*color7: #E5E5E5
+!*color8: #666666
+!*color9: #FF0000
+!*color10: #00FF00
+!*color11: #FFFF00
+!*color12: #0000FF
+!*color13: #FF00FF
+!*color14: #00FFFF
+!*color15: #FFFFFF
+!*colorUL: yellow
+!*colorBD: white
 
 XTerm*fontMenu.Label:  VT Fonts
 XTerm*fontMenu*fontdefault*Label:    Default
