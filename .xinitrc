@@ -3,6 +3,8 @@ PATH=$PATH:/usr/sbin
 
 FONT="-*-lime-*-*-*-*-*-*-*-*-*-*-iso10646-*"
 
-[[ -f ~/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
+if [ -f ~/.Xdefaults ] ; then
+    xrdb -merge ~/.Xdefaults
+fi
 
 exec xmonad
