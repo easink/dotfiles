@@ -11,11 +11,13 @@
 import XMonad
 -- import XMonad.Actions.RotView    ( rotView )
 import XMonad.Layout             ( (|||), Full(..) )
-import XMonad.Layout.NoBorders   (noBorders)
+import XMonad.Layout.Grid
+import XMonad.Layout.NoBorders   ( noBorders, smartBorders )
 import XMonad.Layout.PerWorkspace
-import XMonad.Layout.LayoutHints
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutHints ( layoutHints )
+import XMonad.Layout.ToggleLayouts
+
 import XMonad.Hooks.DynamicLog   ( PP(..), dynamicLogWithPP, dzenColor, wrap, defaultPP )
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageDocks
@@ -64,10 +66,12 @@ main = do
         , workspaces         = ["main","net","www"]
                                ++ map show [4..9]
 --         , defaultGaps        = [(16,0,0,0)]
+        , manageHook         = manageHook defaultConfig <+> myManageHook <+> manageDocks
         , logHook            = dynamicLogWithPP $ myPP statusBarPipe
+        , layoutHook         = avoidStruts $ layoutHook defaultConfig
         , mouseBindings      = \c -> myMouse c `M.union` mouseBindings defaultConfig c
         , keys               = \c -> myKeys c `M.union` keys defaultConfig c
-	, manageHook         = manageHook defaultConfig <+> myManageHook
+--, manageHook         = manageHook defaultConfig <+> myManageHook
         }
 
 
