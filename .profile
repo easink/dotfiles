@@ -8,6 +8,11 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+if [ "$OSTYPE" = "darwin11" ]; then
+    # Enable ls colors
+    export CLICOLOR=1
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
