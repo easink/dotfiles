@@ -128,8 +128,8 @@ XTerm.VT100.scrollKey                   : true
 
 *background:            S_base03
 *foreground:            S_base00
-*fading:                40
-*fadeColor:             S_base03
+!*fading:                40
+!*fadeColor:             S_base03
 *cursorColor:           S_base1
 *pointerColorBackground:S_base01
 *pointerColorForeground:S_base1

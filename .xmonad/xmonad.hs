@@ -18,6 +18,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutHints ( layoutHints )
 import XMonad.Hooks.DynamicLog   ( PP(..), dynamicLogWithPP, dzenColor, wrap, defaultPP )
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.ManageDocks
 import XMonad.Prompt             ( defaultXPConfig, XPConfig(..), XPPosition(..) )
 import XMonad.Prompt.Shell       ( shellPrompt )
 import XMonad.Util.Run
@@ -62,7 +63,7 @@ main = do
         , terminal           = "x-terminal-emulator"
         , workspaces         = ["main","net","www"]
                                ++ map show [4..9]
-        , defaultGaps        = [(16,0,0,0)]
+--         , defaultGaps        = [(16,0,0,0)]
         , logHook            = dynamicLogWithPP $ myPP statusBarPipe
         , mouseBindings      = \c -> myMouse c `M.union` mouseBindings defaultConfig c
         , keys               = \c -> myKeys c `M.union` keys defaultConfig c
