@@ -1,6 +1,7 @@
 
 PATH=$PATH:/usr/sbin
 
+SHELL=/bin/bash
 LC_CTYPE=sv_SE.UTF-8; export LC_CTYPE
 FONT="-*-lime-*-*-*-*-*-*-*-*-*-*-iso10646-*"
 
