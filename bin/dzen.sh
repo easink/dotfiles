@@ -23,15 +23,16 @@ NET_UP_MAX=14
 MAILDIR=~/mail/GmailMain
 
 # Battery config
-STATEFILE='/proc/acpi/battery/BAT0/state' # battery's state file
-INFOFILE='/proc/acpi/battery/BAT0/info'   # battery's info file
-LOWBAT=25        # percentage of battery life marked as low
-LOWCOL='#ff4747' # color when battery is low
+BAT_FULL=$(</sys/class/power_supply/BAT0/charge_full) # battery charged full
+BAT_NOW=$(</sys/class/power_supply/BAT0/charge_now)   # battery charge status
+BAT_LOW=25           # percentage of battery life marked as low
+BAT_LOWCOL='#ff4747' # color when battery is low
 
 # Volume config
-VOLINC="amixer -c0 sset PCM 5dB+ >/dev/null"
-VOLDEC="amixer -c0 sset PCM 5dB- >/dev/null"
-VOLMAX=$(amixer -c0 get PCM | awk '/^  Limits/ { print $5 }')
+VOLCTRL="Master,0"
+VOLINC="amixer -c0 sset $VOLCTRL 5dB+ >/dev/null"
+VOLDEC="amixer -c0 sset $VOLCTRL 5dB- >/dev/null"
+#VOLMAX=$(amixer -c0 get $VOLCTRL | awk '/^  Limits/ { print $5 }')
 #VOLMAX=100
 #VOLCUR="amixer -c0 get PCM | awk '/^  Front Left/ { print \$4 \" \" $VOLMAX }'"
 
@@ -97,7 +98,7 @@ fnet() {
  
 fcputemp()
 {
-    print -n ${(@)$(</proc/acpi/thermal_zone/THM/temperature)[2,3]}
+    print -n ${(@)$(</sys/class/thermal/thermal_zone0/temp)[2,3]}
 }
 
 #np()
@@ -121,25 +122,22 @@ fmail() {
 }
  
 fbattery() {
-    BAT_FULL=`cat $INFOFILE|grep design|line|cut -d " " -f 11`;
-    STATUS=`cat $STATEFILE|grep charging|cut -d " " -f 12`;
-    RCAP=`cat $STATEFILE|grep remaining|cut -d " " -f 8`;
-    RPERC=$(($RCAP*100/$BAT_FULL))
+    BAT_PERC=$(($BAT_NOW*100/$BAT_FULL))
   
-    if [ $RPERC -le $LOWBAT ]; then GFG=$LOWCOL; fi
+    if [ $BAT_PERC -le $BAT_LOW ]; then GFG=$BAT_LOWCOL; fi
     print -n "^i(${ICON_DIR}/battery.xbm)"
-    print -n " ${RPERC}% "
-    print $RPERC | gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
+#    print -n " ${BAT_PERC}% "
+    print $BAT_PERC | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
 }
 
 #VOLCUR=0
 fvolume() {
-    VOLCUR=$(amixer -c0 get PCM | awk '/^  Front Left/ { print $4 }')
-    VOLCUR=$(($VOLCUR*100/$VOLMAX))
+    VOLCUR=$(amixer -c0 get $VOLCTRL | awk '/^  Mono/{print $4}' | tr -d '[]')
+#    VOLCUR=$(($VOLCUR*100/$VOLMAX))
 #    VOLCUR=$(($VOLCUR+1))
     print -n "^i(${ICON_DIR}/volume.xbm)"
-    print -n " ${VOLCUR}% "
-    print $VOLCUR | gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
+#    print -n " ${VOLCUR} "
+    print $VOLCUR | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
 #    print $VOLCUR
 }
 
