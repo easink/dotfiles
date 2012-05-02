@@ -129,7 +129,7 @@ fbattery() {
     if [ $RPERC -le $LOWBAT ]; then GFG=$LOWCOL; fi
     print -n "^i(${ICON_DIR}/battery.xbm)"
     print -n " ${RPERC}% "
-    print $RPERC | gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
+    print $RPERC | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
 }
 
 #VOLCUR=0
@@ -139,7 +139,7 @@ fvolume() {
 #    VOLCUR=$(($VOLCUR+1))
     print -n "^i(${ICON_DIR}/volume.xbm)"
     print -n " ${VOLCUR}% "
-    print $VOLCUR | gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
+    print $VOLCUR | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
 #    print $VOLCUR
 }
 
@@ -167,10 +167,10 @@ while true; do
     [[ $DISKI -ge $DISKVAL ]] && PDISK=$(fdisk) && DISKI=0
     #[[ $NPI -ge $NPIVAL ]] && PNP=$(np) && NPI=0
     [[ $CPUI -ge $CPUIVAL ]] && PCPU=$(fcpu) && CPUI=0
-    [[ $CPUTEMPI -ge $CPUTEMPIVAL ]] && PCPUTEMP=$(fcputemp) && CPUTEMPI=0
+#    [[ $CPUTEMPI -ge $CPUTEMPIVAL ]] && PCPUTEMP=$(fcputemp) && CPUTEMPI=0
 #    [[ $NETI -ge $NETIVAL ]] && PNET=( `get_net_rates` ) && NETI=0
-    [[ $BATI -ge $BATIVAL ]] && PBAT=$(fbattery) && BATI=0
-    [[ $VOLI -ge $VOLIVAL ]] && PVOL=$(fvolume) && VOLI=0
+#    [[ $BATI -ge $BATIVAL ]] && PBAT=$(fbattery) && BATI=0
+#    [[ $VOLI -ge $VOLIVAL ]] && PVOL=$(fvolume) && VOLI=0
 
     # Disk usage
 #    echo -n "${disk_usage}${SEPERATOR}"
@@ -193,13 +193,13 @@ while true; do
     # Cpu temp
     #print -n "^i(${ICON_DIR}/cpu.xpm)"
     print -n ${PCPU}${SEPERATOR}
-    print -n ${PCPUTEMP}${SEPERATOR}
+#    print -n ${PCPUTEMP}${SEPERATOR}
     
     # Battery
-    print -n ${PBAT}${SEPERATOR}
+#    print -n ${PBAT}${SEPERATOR}
 
     # Volume
-    print -n ${PVOL}${SEPERATOR}
+#    print -n ${PVOL}${SEPERATOR}
 
     # Time and date
 #    echo -n "${times}${SEPERATOR}"

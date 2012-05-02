@@ -1,13 +1,6 @@
---
--- xmonad example config file.
---
--- A template showing all available configuration hooks,
--- and how to override the defaults in your own xmonad.hs conf file.
---
--- Normally, you'd only override those defaults you care about.
---
 -- vim :fdm=marker sw=4 sts=4 ts=4 et ai:
-
+ 
+-- Imports {{{
 import XMonad
 -- import XMonad.Actions.RotView    ( rotView )
 import XMonad.Layout             ( (|||), Full(..) )
@@ -50,49 +43,62 @@ myBitmapsDir        = "/home/andreas/.share/icons/dzen"
 myFont              = "-*-terminus-medium-*-*-*-12-*-*-*-*-*-iso8859-1"
 -- }}}
 
-
--- statusBarCmd= "dzen2 -e '' -w 1024 -ta l -fg white -bg \"#222222\" -fn \"-*-terminus-*-r-*-*-12-*-*-*-*-*-iso8859-1\""
-statusBarCmd= "dzen2 -p -h 16 -ta l -bg '" ++ myNormalBGColor ++ "' -fg '" ++ myNormalFGColor ++ "' -w 640 -sa c -fn '" ++ myFont ++ "'"
-
-
+-- Keybindings {{{
+myKeys conf@(XConfig {modMask = modm}) = M.fromList $
+    [
+        ((modm , xK_p), spawn ("exec `dmenu_path | dmenu -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`")),
+        ((modm , xK_g), spawn ("exec gajim-remote toggle_roster_appearance"))
+    ]
+    ++
+    -- Remap switching workspaces to M-[asdfzxcv]
+    [((m .|. modm, k), windows $ f i)
+        | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_v]
+        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+-- }}}
+ 
+statusBarCmd= "dzen2 -p -h 16 -ta l -bg '" ++ myNormalBGColor ++ "' -fg '" ++ myNormalFGColor ++ "' -w 768 -sa c -fn '" ++ myFont ++ "'"
+ 
+-- Main {{{
 main = do
     statusBarPipe <- spawnPipe statusBarCmd
-    xmonad $ defaultConfig {
-          modMask            = mod1Mask
-        , borderWidth        = 1
-        , normalBorderColor  = myNormalBGColor
-        , focusedBorderColor = myFocusedFGColor
-        , terminal           = "x-terminal-emulator"
-        , workspaces         = ["main","net","www"]
-                               ++ map show [4..9]
---         , defaultGaps        = [(16,0,0,0)]
-        , manageHook         = manageHook defaultConfig <+> myManageHook <+> manageDocks
-        , logHook            = dynamicLogWithPP $ myPP statusBarPipe
-        , layoutHook         = avoidStruts $ layoutHook defaultConfig
-        , mouseBindings      = \c -> myMouse c `M.union` mouseBindings defaultConfig c
-        , keys               = \c -> myKeys c `M.union` keys defaultConfig c
---, manageHook         = manageHook defaultConfig <+> myManageHook
-        }
-
-
-myManageHook = composeAll [
-        className   =? "Firefox-bin"        --> doF(W.shift "internet"),
-        className   =? "Gajim.py"           --> doF(W.shift "chat"),
+    xmonad $ withUrgencyHook NoUrgencyHook $defaultConfig {
+        modMask = mod1Mask,
+        borderWidth = 1,
+        terminal = "x-terminal-emulator",
+        normalBorderColor = myNormalBGColor,
+        focusedBorderColor = myFocusedFGColor,
+--        defaultGaps = [(16,0,0,0)],
+        manageHook = manageHook defaultConfig <+> myManageHook <+> manageDocks,
+--        layoutHook = onWorkspace "chat" chatLayout globalLayout,
+--        layoutHook = avoidStruts $ layoutHook defaultConfig,
+        layoutHook = avoidStruts (gaps [(D,140)] $ globalLayout),
+        workspaces = ["main","net","www"]
+                     ++ map show [4..9],
+        logHook = dynamicLogWithPP $ myPP statusBarPipe,
+        mouseBindings      = \c -> myMouse c `M.union` mouseBindings defaultConfig c,
+        keys = \c -> myKeys c `M.union` keys defaultConfig c
+    }
+    where
+        globalLayout = Column 1.6 ||| layoutHints (tiled) ||| layoutHints (noBorders Full) ||| layoutHints (Mirror tiled) ||| layoutHints (Tall 1 (3/100) (1/2))
+        chatLayout = layoutHints (noBorders Full)
+        tiled = ThreeCol 1 (3/100) (1/2)
+-- }}}
  
+-- Window rules (floating, tagging, etc) {{{
+myManageHook = composeAll [
+        className   =? "Iceweasel"          --> doF(W.shift "internet"),
+        className   =? "Google-chrome"      --> doF(W.shift "internet"),
+        title       =? "Gimp"               --> doFloat,
         title       =? "Gajim"              --> doFloat,
         title       =? "Iceweasel Preferences" --> doFloat,
         title       =? "Add-ons"            --> doFloat,
-        className   =? "Ayttm"              --> doFloat,
-        className   =? "Totem"              --> doFloat,
-        className   =? "xine"               --> doFloat,
-        className   =? "Pidgin"             --> doFloat,
-        className   =? "Skype"              --> doFloat,
+        title       =? "NoScript Options"   --> doFloat,
+        className   =? "xli"                --> doFloat,
         className   =? "stalonetray"        --> doIgnore,
-        className   =? "trayer"             --> doIgnore
+        className   =? "Gkrellm"            --> doIgnore
     ]
-
-
-
+-- }}}
+--         className   =? "Gajim.py"           --> doF(W.shift "chat"),
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   [ ((modMask, xK_p), spawn ("exec `dmenu_path | dmenu -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
@@ -125,6 +131,10 @@ myMouse (XConfig {XMonad.modMask = modMask}) = M.fromList $
 --    [ ((modMask, button4), (\_ -> rotView True))
 --    , ((modMask, button5), (\_ -> rotView False))
 --    ]
+
+-- Dzen Pretty Printer {{{
+-- Stolen from Rob [1] and modified
+-- [1] http://haskell.org/haskellwiki/Xmonad/Config_archive/Robert_Manea%27s_xmonad.hs
 
 myPP handle = defaultPP {
     ppCurrent = wrap ("^fg(" ++ myFocusedFGColor ++ ")^bg(" ++ myFocusedBGColor ++ ")^p(4)") "^p(4)^fg()^bg()",
@@ -272,4 +282,5 @@ myPP handle = defaultPP {
 -- 
 --   --   -- you may also bind events to the mouse scroll wheel (button4 and button5)
 --     ]
+-- }}}
 
