@@ -7,7 +7,10 @@ import XMonad.Layout             ( (|||), Full(..) )
 import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders   ( noBorders, smartBorders )
 import XMonad.Layout.PerWorkspace
+import XMonad.Layout.Column
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.Gaps
+import XMonad.Layout.Monitor
 import XMonad.Layout.LayoutHints ( layoutHints )
 import XMonad.Layout.ToggleLayouts
 
@@ -43,18 +46,6 @@ myBitmapsDir        = "/home/andreas/.share/icons/dzen"
 myFont              = "-*-terminus-medium-*-*-*-12-*-*-*-*-*-iso8859-1"
 -- }}}
 
--- Keybindings {{{
-myKeys conf@(XConfig {modMask = modm}) = M.fromList $
-    [
-        ((modm , xK_p), spawn ("exec `dmenu_path | dmenu -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`")),
-        ((modm , xK_g), spawn ("exec gajim-remote toggle_roster_appearance"))
-    ]
-    ++
-    -- Remap switching workspaces to M-[asdfzxcv]
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_v]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
--- }}}
  
 statusBarCmd= "dzen2 -p -h 16 -ta l -bg '" ++ myNormalBGColor ++ "' -fg '" ++ myNormalFGColor ++ "' -w 768 -sa c -fn '" ++ myFont ++ "'"
  
@@ -86,8 +77,9 @@ main = do
  
 -- Window rules (floating, tagging, etc) {{{
 myManageHook = composeAll [
-        className   =? "Iceweasel"          --> doF(W.shift "internet"),
-        className   =? "Google-chrome"      --> doF(W.shift "internet"),
+        className   =? "Iceweasel"          --> doF(W.shift "net"),
+        className   =? "Chromium"           --> doF(W.shift "net"),
+        className   =? "Google-chrome"      --> doF(W.shift "net"),
         title       =? "Gimp"               --> doFloat,
         title       =? "Gajim"              --> doFloat,
         title       =? "Iceweasel Preferences" --> doFloat,
@@ -100,6 +92,8 @@ myManageHook = composeAll [
 -- }}}
 --         className   =? "Gajim.py"           --> doF(W.shift "chat"),
 
+-- Keybindings {{{
+-- myKeys conf@(XConfig {modMask = modm}) = M.fromList $
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   [ ((modMask, xK_p), spawn ("exec `dmenu_path | dmenu -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
   , ((modMask .|. shiftMask, xK_plus ), spawn "amixer -q set PCM 2dB+")
@@ -108,6 +102,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 --  , ((0, 0x1008ff13), spawn "amixer -q set PCM 2dB+")
 --  , ((0, 0x1008ff11), spawn "amixer -q set PCM 2dB-")
   ]
+--  ++
+--  -- Remap switching workspaces to M-[asdfzxcv]
+--  [((m .|. modm, k), windows $ f i)
+--      | (i, k) <- zip (XMonad.workspaces conf) [xK_a, xK_s, xK_d, xK_f, xK_v]
+--      , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+-- }}}
  
 -- myPromptConfig = defaultXPConfig
 --                   { position = Top
@@ -142,6 +142,7 @@ myPP handle = defaultPP {
     ppVisible = wrap ("^fg(" ++ myNormalFGColor ++ ")^bg(" ++ myNormalBGColor ++ ")^p(4)") "^p(4)^fg()^bg()",
     ppSep     = "^fg(" ++ mySeperatorColor ++ ")^r(3x3)^fg()",
     ppLayout  = (\x -> case x of
+        "Column 1.6"    -> " ^i(" ++ myBitmapsDir ++ "/col16.xbm) "
         "Tall"          -> " ^i(" ++ myBitmapsDir ++ "/tall.xbm) "
         "Mirror Tall"   -> " ^i(" ++ myBitmapsDir ++ "/mtall.xbm) "
         "Full"          -> " ^i(" ++ myBitmapsDir ++ "/full.xbm) "
