@@ -1,0 +1,147 @@
+set realname="Andreas Rydbrink"
+
+#set charset="iso-8859-1"
+#set allow_8bit	# Don't do any Quoted-Printable encoding on 8-bit data!
+set copy=yes	# Ask me if I want to save a copy of my outgoing messages.
+set delete=yes
+set askcc=no
+set mark_old=no
+set reverse_alias
+set reverse_name
+set reply_to
+set attribution="On %M %N, %f wrote:"
+set editor=vim
+#set print=ask	# ask-no
+set print_cmd="muttprint"
+set mbox=+inbox
+set record=+outbox	# where to save copies of my outgoing messages
+#set edit_hdrs		# let me edit those headers!
+set nosave_empty
+#set sort=threads
+set read_inc=10
+set write_inc=10
+#set pager=less
+set noprompt_after
+set mime_forward
+#set attribution="Thus spake %n (%a):\n"
+my_hdr From: $realname <andreas.rydbrink@fra.se>
+#send-hook "~t ^.*@test\.net$" my_hdr From: $realname <andreas@test>
+set smtp_url="smtp://mailbox.fra.se/
+
+#set status_format="---%h:%f [%?M of ?%m msgs, %?n new, ?%?t tagged, ?%l bytes]---(%s)%|-"
+set status_format="%r %v [%?M?%M/?%m] %?n?%n new, ?%?p?%p postponed, ?%?t?%t +tagged, ?%?d?%d deleted, ?(%h:%f) %?b?%b more to go.?%> %r"
+
+set alias_file="~/.aliases"
+# set quote_regexp="^ *[-=]*[>:|][>:|]*[ 	A-Za-z0-9]"
+set quote_regexp="^([A-Za-z ]+>|[]>:|}-][]>:|}-]*)"
+set include
+#set pop_host="m"
+#set pop_user=andreas.svensson
+#set pop_delete
+set hdr_format="%4C %Z %{%b %d} %-15.15n (%4l) %s"
+set nomove
+set tilde
+macro index \cb |urlview\n
+macro pager \cb |urlview\n
+auto_view text/html
+set noautoedit
+set pager_context=1
+set pager_stop
+#set pgp_replyencrypt
+#set pgp_replysign
+#set pgp_autosign
+set pipe_decode
+set postponed="+postponed"
+set to_chars="b .c>"
+
+set fast_reply
+
+#color header yellow black Subject:
+#color header brightcyan black .
+#color body brightyellow black [_a-z\.\$A-Z0-9-]+@[a-zA-Z0-9\./\-]+
+#color body yellow black (http|ftp)://[_a-zA-Z0-9\./~\-]+
+#color quoted green black
+#color signature brightblue black
+## color indicator yellow blue
+#color attachment yellow black
+#color tree red black
+#color indicator black cyan
+#color status yellow blue
+#color tilde blue black
+##color normal default default
+color header yellow default Subject:
+color header brightcyan default .
+color body brightyellow default [_a-z\.\$A-Z0-9-]+@[a-zA-Z0-9\./\-]+
+color body yellow default (http|ftp)://[_a-zA-Z0-9\./~\-]+
+color quoted green default
+color signature brightblue default
+# color indicator yellow blue
+color attachment yellow default
+color tree red default
+color indicator black cyan
+color status yellow blue
+color tilde blue default
+color normal default default
+
+bind pager 'w' previous-page
+bind pager 'j' next-line
+bind pager 'k' previous-line
+bind index '#' tag-entry
+bind index '{' previous-thread
+bind index '}' next-thread
+##bind index 'Down' 
+#bind index 'j' next-thread
+##bind index '<Down>' next-thread
+#bind index 'k' previous-thread
+##bind index '<Up>' previous-thread
+
+# Headers to ignore
+ignore *
+unignore date from to cc subject x-mailer resent-from reply-to
+
+# ignore received return-path ignore content- x-vm- x-lines precedence x-sun
+# ignore message-id mime-version resent- x-loop x-mailing-list status x-status
+# ignore path illegal-object xref nntp-posting-host lines references x-sender
+# ignore errors-to return-receipt-to old-reply-to x-test in-reply-to priority
+# ignore old-return-path x-authentication-warning
+
+#set alternates=leitner@math.fu-berlin.de,leitner@inf.fu-berlin.de,felix@artcom.de,webmaster@newscan.de,leitner@newscan.de,webmaster@paperboy.net,webmaster@paperboy.de
+#set alternates=(leitner|felix|webmaster)@((inf|math).fu-berlin.de|paperboy.(de|net))
+
+#
+# Mailing lists that I'm on which I want to see on the display rather than
+# who sent the message.
+#
+#lists mbone cakewalk ietf ietf-announce
+#lists mutt ssh hacker pgcc-list beastium-list ezwgl mutt-announce kde bugtraq ntbugtraq ftp-adm sparclinux linux mp3 vim vim-dev egcs krypto ccc intern
+
+#mailboxes ! +quake +paperboy
+mailboxes ! 
+
+folder-hook \! 'set hdr_format="%4C %Z %{%b %d} %-15.15L (%4l) %s"'
+folder-hook \! 'set strict_threads'
+#folder-hook +deadbeef 'set to_chars="  .c>"'
+#folder-hook +mutt 'set to_chars="  .c>"'
+#folder-hook +weird 'set to_chars="  .c>"'
+#folder-hook +pgcc 'set to_chars="  .c>"'
+#folder-hook +outbox 'set hdr_format="%4C %Z %{%b %d} %-15.15t (%4l) %s"'
+#save-hook davis@space.mit.edu +hacking
+#save-hook hacker@math.fu-berlin.de +hacking
+#save-hook tom.schwaller@linux-magazin.de +hacking
+#save-hook notw@nine.org +weird
+#save-hook ezwgl@ +ezwgl
+#save-hook bugtraq@ +bugtraq
+#save-hook mutt-announce@ +mutt
+#save-hook this-is-true-admin@lyris.net +weird
+#save-hook pgcc-list@ +pgcc
+#save-hook beastium-list@ +pgcc
+#save-hook heurics.hafner +paperboy
+#save-hook liebetrau.heurics +paperboy
+#save-hook webmaster@paperboy.net +paperboy
+#save-hook 0xdeadbeef +deadbeef
+#save-hook kde +kde
+#save-hook a5120101@ +mirja
+
+#send-hook "mutt-(users|dev)@"	"set mime_fwd remote_sig=~/.sig.mutt"
+
+source ~/.aliases
