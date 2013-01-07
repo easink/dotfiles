@@ -1,5 +1,5 @@
 #!/bin/zsh
- 
+
 typeset -A DISKS
 ###
 # Config
@@ -23,8 +23,8 @@ NET_UP_MAX=14
 MAILDIR=~/mail/GmailMain
 
 # Battery config
-BAT_FULL=$(</sys/class/power_supply/BAT0/charge_full) # battery charged full
-BAT_NOW=$(</sys/class/power_supply/BAT0/charge_now)   # battery charge status
+BAT_FILEBASE="/sys/class/power_supply/BAT0/charge"
+BAT_FULL=$(<${BAT_FILEBASE}_full) # battery charged full
 BAT_LOW=25           # percentage of battery life marked as low
 BAT_LOWCOL='#ff4747' # color when battery is low
 
@@ -49,7 +49,7 @@ CPUTEMPIVAL=5
 CPUIVAL=2
 #NPIVAL=3
 NETIVAL=1
-BATIVAL=10 
+BATIVAL=10
 VOLIVAL=1
 
 ###
@@ -59,7 +59,7 @@ fdate()
 {
     date +${DATE_FORMAT}
 }
- 
+
 fgtime()
 {
     local zone
@@ -70,7 +70,7 @@ fgtime()
         print_space=1
     done
 }
- 
+
 #
 # Format: label1 mountpoint1 label2 mountpoint2 ... labelN mountpointN
 # Copied and modified from Rob
@@ -87,7 +87,7 @@ fdisk() {
     done
     print -n $rstr
 }
- 
+
 # Requires mesure
 fnet() {
     local up; local down
@@ -95,7 +95,7 @@ fnet() {
     down=`mesure -K -l -c 3 -t -i $NETWORK_INTERFACE`
     echo "$down $up"
 }
- 
+
 fcputemp()
 {
     print -n ${(@)$(</sys/class/thermal/thermal_zone0/temp)[2,3]}
@@ -116,14 +116,15 @@ fcpu()
 {
     dzen2-gcpubar -c 2 -bg $BAR_BG -fg $BAR_FG -w $BAR_HW -h $BAR_HH | tail -n1 | tr -d '\n'
 }
- 
+
 fmail() {
     find ${MAILDIR}/*/new -not -type d | wc -l
 }
- 
+
 fbattery() {
+    BAT_NOW=$(<${BAT_FILEBASE}_now)   # battery charge status
     BAT_PERC=$(($BAT_NOW*100/$BAT_FULL))
-  
+
     if [ $BAT_PERC -le $BAT_LOW ]; then GFG=$BAT_LOWCOL; fi
     print -n "^i(${ICON_DIR}/battery.xbm)"
 #    print -n " ${BAT_PERC}% "
@@ -159,7 +160,7 @@ VOLI=$VOLIVAL
 #temp=$(cpu_temp)
 #cpumeter=$(cpu)
 ##net_rates=( `get_net_rates` )
- 
+
 while true; do
     [[ $DATEI -ge $DATEIVAL ]] && PDATE=$(fdate) && DATEI=0
     [[ $DISKI -ge $DISKVAL ]] && PDISK=$(fdisk) && DISKI=0
@@ -192,7 +193,7 @@ while true; do
     #print -n "^i(${ICON_DIR}/cpu.xpm)"
     print -n ${PCPU}${SEPERATOR}
     print -n ${PCPUTEMP}${SEPERATOR}
-    
+
     # Battery
     print -n ${PBAT}${SEPERATOR}
 
@@ -202,7 +203,7 @@ while true; do
     # Time and date
 #    echo -n "${times}${SEPERATOR}"
     print "${PDATE}"
- 
+
     DATEI=$(($DATEI+1))
 #    TIMEI=$(($TIMEI+1))
     DISKI=$(($DISKI+1))
@@ -212,6 +213,6 @@ while true; do
 #    NETI=$(($NETI+1))
     BATI=$(($BATI+1))
     VOLI=$(($VOLI+1))
- 
+
     sleep $INTERVAL
 done

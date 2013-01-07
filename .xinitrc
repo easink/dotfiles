@@ -1,3 +1,4 @@
+#!/bin/sh
 
 PATH=$PATH:/usr/sbin
 
