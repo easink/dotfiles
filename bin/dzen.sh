@@ -20,6 +20,7 @@ ICON_DIR="${HOME}/.share/icons/dzen"
 NETWORK_INTERFACE=eth1
 NET_DOWN_MAX=55
 NET_UP_MAX=14
+WLANIF=wlan0
 MAILDIR=~/mail/GmailMain
 
 # Battery config
@@ -49,6 +50,7 @@ CPUTEMPIVAL=5
 CPUIVAL=2
 #NPIVAL=3
 NETIVAL=1
+WNETIVAL=30
 BATIVAL=10
 VOLIVAL=1
 
@@ -94,6 +96,17 @@ fnet() {
     up=`mesure -K -l -c 3 -t -o $NETWORK_INTERFACE`
     down=`mesure -K -l -c 3 -t -i $NETWORK_INTERFACE`
     echo "$down $up"
+}
+
+fwnet()
+{
+    percent=$(/sbin/iwconfig wlan0|awk -F "[ =/]*" '/Link/{printf "%d", $4*100/$5}')
+#    if   [ $percent -ge 75 ]; then print -n "^i(${ICON_DIR}/wlan_signal_full.xbm)"
+#    elif [ $percent -ge 50 ]; then print -n "^i(${ICON_DIR}/wlan_signal_mid.xbm)"
+#    elif [ $percent -ge 25 ]; then print -n "^i(${ICON_DIR}/wlan_signal_low.xbm)"
+#    else                           print -n "^i(${ICON_DIR}/wlan_signal_nil.xbm)"
+#    fi
+    print "${percent}%"
 }
 
 fcputemp()
@@ -149,7 +162,8 @@ DISKI=$DISKIVAL
 #NPI=0
 CPUTEMPI=$CPUTEMPIVAL
 CPUI=$CPUIVAL
-NETI=$NETIVAL
+#NETI=$NETIVAL
+WNETI=$WNETIVAL
 BATI=$BATIVAL
 VOLI=$VOLIVAL
 
@@ -168,6 +182,7 @@ while true; do
     [[ $CPUI -ge $CPUIVAL ]] && PCPU=$(fcpu) && CPUI=0
     [[ $CPUTEMPI -ge $CPUTEMPIVAL ]] && PCPUTEMP=$(fcputemp) && CPUTEMPI=0
 #    [[ $NETI -ge $NETIVAL ]] && PNET=( `get_net_rates` ) && NETI=0
+    [[ $WNETI -ge $WNETIVAL ]] && PWNET=$(fwnet) && WNETI=0
     [[ $BATI -ge $BATIVAL ]] && PBAT=$(fbattery) && BATI=0
     [[ $VOLI -ge $VOLIVAL ]] && PVOL=$(fvolume) && VOLI=0
 
@@ -200,6 +215,9 @@ while true; do
     # Volume
     print -n ${PVOL}${SEPERATOR}
 
+    # Wlan
+    print -n ${PWNET}${SEPERATOR}
+
     # Time and date
 #    echo -n "${times}${SEPERATOR}"
     print "${PDATE}"
@@ -211,6 +229,7 @@ while true; do
     CPUI=$(($CPUI+1))
     CPUTEMPI=$(($CPUTEMPI+1))
 #    NETI=$(($NETI+1))
+    WNETI=$(($WNETI+1))
     BATI=$(($BATI+1))
     VOLI=$(($VOLI+1))
 
