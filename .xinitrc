@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [ "$OSTYPE" = "darwin11" ]; then
+    # row from /opt/X11/bin/startx
+    sysclientrc=/opt/X11/lib/X11/xinit/xinitrc
+    source $sysclientrc
+fi
+
 PATH=$PATH:/usr/sbin
 
 SHELL=/bin/bash
