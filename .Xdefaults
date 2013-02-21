@@ -9,12 +9,12 @@ xv*cursor                               : 68
 ! rxvt                                                                        !
 !-----------------------------------------------------------------------------!
 
-URxvt.font:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
-URxvt.boldFont:		-misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso10646-1
-URxvt.loginShell:	true
+URxvt*font:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
+URxvt*boldFont:		-misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso10646-1
+URxvt*loginShell:	true
 !!!URxvt.background:	midnightblue
 !!!URxvt.foreground:	wheat
-URxvt.saveLines:	32767
+URxvt*saveLines:	32767
 URxvt*geometry:     	80x36
 
 URxvt*scrollBar:    	false
