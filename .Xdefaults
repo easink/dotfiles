@@ -1,6 +1,6 @@
 
 ! Reject xdm to listen on any port
-xdm.DisplayManager.requestPort:	0
+xdm.DisplayManager.requestPort: 0
 
 *cursor                                 : left_ptr
 xv*cursor                               : 68
@@ -9,18 +9,20 @@ xv*cursor                               : 68
 ! rxvt                                                                        !
 !-----------------------------------------------------------------------------!
 
-URxvt*font:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
-URxvt*boldFont:		-misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso10646-1
-URxvt*loginShell:	true
-!!!URxvt.background:	midnightblue
-!!!URxvt.foreground:	wheat
-URxvt*saveLines:	32767
-URxvt*geometry:     	80x36
+URxvt*font:             -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
+URxvt*boldFont:         -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso10646-1
+URxvt.italicFont:       xft:Bitstream Vera Sans Mono:italic:autohint=true
+URxvt.boldItalicFont:   xft:Bitstream Vera Sans Mono:bold:italic:autohint=true
+URxvt*loginShell:       true
+!!!URxvt.background:    midnightblue
+!!!URxvt.foreground:    wheat
+URxvt*saveLines:        32767
+URxvt*geometry:         80x36
 
-URxvt*scrollBar:    	false
-URxvt*visualBell:   	true
+URxvt*scrollBar:        false
+URxvt*visualBell:       true
 ! Disable print key
-URxvt*print-pipe:	cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
+URxvt*print-pipe:       cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
 !-----------------------------------------------------------------------------!
 ! xterm                                                                       !
 !-----------------------------------------------------------------------------!
