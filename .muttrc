@@ -95,6 +95,10 @@ bind index '}' next-thread
 #bind index 'k' previous-thread
 ##bind index '<Up>' previous-thread
 
+bind index \CN sidebar-next
+bind index \CP sidebar-prev
+bind index \CO sidebar-open
+
 # Headers to ignore
 ignore *
 unignore date from to cc subject x-mailer resent-from reply-to

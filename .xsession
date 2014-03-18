@@ -54,6 +54,7 @@ urxvtc
 
 #iceweasel &
 my.chromium.sh &
+/usr/bin/google-chrome --proxy-pac-url="http://motbok.fra.se/proxy_bc.pac" "https://play.spotify.com/home" &
 
 #google-chrome --proxy-pac-url=http://wpad.fra.se/wpad.dat &
 

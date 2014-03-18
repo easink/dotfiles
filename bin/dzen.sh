@@ -1,5 +1,5 @@
 #!/bin/zsh
- 
+
 typeset -A DISKS
 ###
 # Config
@@ -47,8 +47,9 @@ DISKIVAL=60
 CPUTEMPIVAL=5
 CPUIVAL=2
 #NPIVAL=3
+MUSICIVAL=3
 NETIVAL=1
-BATIVAL=10 
+BATIVAL=10
 VOLIVAL=1
 
 ###
@@ -58,7 +59,7 @@ fdate()
 {
     date +${DATE_FORMAT}
 }
- 
+
 fgtime()
 {
     local zone
@@ -69,14 +70,14 @@ fgtime()
         print_space=1
     done
 }
- 
+
 #
 # Format: label1 mountpoint1 label2 mountpoint2 ... labelN mountpointN
 # Copied and modified from Rob
 fdisk() {
     local rstr; local tstr; local i; local sep
     for i in ${(k)DISKS}; do
-        tstr=$(print `df -h $DISKS[$i]|sed -ne 's/^.* \([0-9]*\)% .*/\1/p'` 100 | \
+        tstr=$(print $(df -h $DISKS[$i]|sed -ne 's/^.* \([0-9]*\)% .*/\1/p') 100 | \
             dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG -l "${i}" -nonl | \
             sed 's/[0-9]\+%//g;s/  / /g')
         if [ ! -z "$rstr" ]; then
@@ -86,15 +87,15 @@ fdisk() {
     done
     print -n $rstr
 }
- 
+
 # Requires mesure
 fnet() {
     local up; local down
-    up=`mesure -K -l -c 3 -t -o $NETWORK_INTERFACE`
-    down=`mesure -K -l -c 3 -t -i $NETWORK_INTERFACE`
+    up=$(mesure -K -l -c 3 -t -o $NETWORK_INTERFACE)
+    down=$(mesure -K -l -c 3 -t -i $NETWORK_INTERFACE)
     echo "$down $up"
 }
- 
+
 fcputemp()
 {
     print -n ${(@)$(</proc/acpi/thermal_zone/THM/temperature)[2,3]}
@@ -111,21 +112,29 @@ fcputemp()
 #    #echo "$POSM" | gdbar -h 7 -w 50 -fg $BAR_FG -bg $BAR_BG
 #}
 
+fmusic()
+{
+    SPOTIFYSTR=" - Spotify - Google Chrome"
+    CAPTION="^i(${ICON_DIR}/musicS.xbm)"
+    SONG=$(xwininfo -all -root|grep "$SPOTIFYSTR"|cut -d\" -f2|cut -d' ' -f2-|sed "s/$SPOTIFYSTR//")
+    print -n "$CAPTION ${SONG}"
+}
+
 fcpu()
 {
     dzen2-gcpubar -c 2 -bg $BAR_BG -fg $BAR_FG -w $BAR_HW -h $BAR_HH | tail -n1 | tr -d '\n'
 }
- 
+
 fmail() {
     find ${MAILDIR}/*/new -not -type d | wc -l
 }
- 
+
 fbattery() {
-    BAT_FULL=`cat $INFOFILE|grep design|line|cut -d " " -f 11`;
-    STATUS=`cat $STATEFILE|grep charging|cut -d " " -f 12`;
-    RCAP=`cat $STATEFILE|grep remaining|cut -d " " -f 8`;
+    BAT_FULL=$(cat $INFOFILE|grep design|line|cut -d " " -f 11);
+    STATUS=$(cat $STATEFILE|grep charging|cut -d " " -f 12);
+    RCAP=$(cat $STATEFILE|grep remaining|cut -d " " -f 8);
     RPERC=$(($RCAP*100/$BAT_FULL))
-  
+
     if [ $RPERC -le $LOWBAT ]; then GFG=$LOWCOL; fi
     print -n "^i(${ICON_DIR}/battery.xbm)"
     print -n " ${RPERC}% "
@@ -153,6 +162,7 @@ CPUI=$CPUIVAL
 NETI=$NETIVAL
 BATI=$BATIVAL
 VOLI=$VOLIVAL
+MUSICI=$MUSICIVAL
 
 #date=$(_date)
 #times=$(_time)
@@ -161,7 +171,7 @@ VOLI=$VOLIVAL
 #temp=$(cpu_temp)
 #cpumeter=$(cpu)
 ##net_rates=( `get_net_rates` )
- 
+
 while true; do
     [[ $DATEI -ge $DATEIVAL ]] && PDATE=$(fdate) && DATEI=0
     [[ $DISKI -ge $DISKVAL ]] && PDISK=$(fdisk) && DISKI=0
@@ -171,6 +181,7 @@ while true; do
 #    [[ $NETI -ge $NETIVAL ]] && PNET=( `get_net_rates` ) && NETI=0
 #    [[ $BATI -ge $BATIVAL ]] && PBAT=$(fbattery) && BATI=0
 #    [[ $VOLI -ge $VOLIVAL ]] && PVOL=$(fvolume) && VOLI=0
+    [[ $MUSICI -ge $MUSICIVAL ]] && PMUSIC=$(fmusic) && MUSICI=0
 
     # Disk usage
 #    echo -n "${disk_usage}${SEPERATOR}"
@@ -187,6 +198,9 @@ while true; do
 #    fi
 #    echo -n "^i(${ICON_DIR}/envelope2.xbm)^fg()${SEPERATOR}"
 
+    # Music
+    print -n ${PMUSIC}${SEPERATOR}
+
     # Disk usage
     print -n ${PDISK}${SEPERATOR}
 
@@ -194,7 +208,7 @@ while true; do
     #print -n "^i(${ICON_DIR}/cpu.xpm)"
     print -n ${PCPU}${SEPERATOR}
 #    print -n ${PCPUTEMP}${SEPERATOR}
-    
+
     # Battery
 #    print -n ${PBAT}${SEPERATOR}
 
@@ -204,7 +218,7 @@ while true; do
     # Time and date
 #    echo -n "${times}${SEPERATOR}"
     print "${PDATE}"
- 
+
     DATEI=$(($DATEI+1))
 #    TIMEI=$(($TIMEI+1))
     DISKI=$(($DISKI+1))
@@ -214,6 +228,7 @@ while true; do
 #    NETI=$(($NETI+1))
     BATI=$(($BATI+1))
     VOLI=$(($VOLI+1))
- 
+    MUSICI=$(($MUSICI+1))
+
     sleep $INTERVAL
 done
