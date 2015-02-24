@@ -95,7 +95,7 @@ myManageHook = composeAll [
 
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
-  [ ((modMask, xK_p), spawn ("exec `dmenu_path | dmenu -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
+  [ ((modMask, xK_p), spawn ("exec `dmenu_run -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
   , ((modMask .|. shiftMask, xK_plus ), spawn "amixer -q set PCM 2dB+")
   , ((modMask .|. shiftMask, xK_minus ), spawn "amixer -q set PCM 2dB-")
 --  , ((0, 0x1008ff12), spawn "amixer -q set Front toggle")

@@ -5,6 +5,8 @@
 # Basic stuff
 EDITOR=vim
 
+export RUST_SRC_PATH=/home/andreas/source/rust-nightly/src
+
 # Configure colors, if available.
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
     c_reset='\[\e[0m\]'

@@ -13,7 +13,7 @@ xv*cursor                               : 68
 !URxvt.throughColor:    #8080f0
 !URxvt.highlightColor:  #f0f0f0
 
-URxvt*saveLines:    8192
+URxvt*saveLines:    10000
 URxvt*geometry:     80x36
 
 URxvt*scrollBar:    false
@@ -129,7 +129,7 @@ XTerm*fontMenu*fontsel*Label:                Selection
 !!cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
 !!green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
 
-#include ".Xdefaults.defcol"
+!#include ".Xdefaults.defcol"
 
 !-----------------------------------------------------------------------------!
 ! XTerm                                                                       !
