@@ -1,0 +1,59 @@
+#ZSHA_BASE=$HOME/.zsh/.antigen
+source $HOME/.zsh/antigen.git/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+
+# Syntax highlighting bundle.
+# antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Automatically list directory contents on `cd`.
+# auto-ls () { ls; }
+# chpwd_functions=( auto-ls $chpwd_functions )
+
+# Additional completion definitions for Zsh
+antigen bundle zsh-users/zsh-completions
+
+# bindkey "^I" expand-cmd-path
+
+# _complete_files () {
+#      eval "$_comp_setup"
+#        _main_complete _files
+#    }
+#    compdef -k _complete_files complete-word '^X/'
+
+# Add the history substring plugin to enable fish style search
+antigen bundle zsh-users/zsh-history-substring-search
+
+# bind UP and DOWN arrow keys
+# zmodload zsh/terminfo
+# bindkey "$terminfo[kcuu1]" history-substring-search-up
+# bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# Load the theme.
+# antigen theme robbyrussell
+# antigen theme amuse
+# antigen theme sonicradish
+# antigen theme blinks
+
+# Fish-style autosuggest
+# antigen bundle tarruda/zsh-autosuggestions
+
+# Setup suggestions
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+# zle -N zle-line-init
+
+# Accept suggestions without leaving insert mode
+# bindkey '^f' vi-forward-word
+# or
+# bindkey '^f' vi-forward-blank-word
+
+#bindkey -v
+
+# Tell antigen that you're done.
+antigen apply
