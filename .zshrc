@@ -101,6 +101,28 @@ function p() {
     fi
 }
 
+# ------------------------------------------------
+x() {
+    if [[ "$USER" == "root" ]]; then
+        echo "Must be regular user (not root) to copy a file to the clipboard."
+    else
+        # If no tty, data should be available on stdin
+        if [[ "$(tty)" == /dev/* ]]; then
+            xclip -out
+        else
+            xclip -selection p
+        fi
+    fi
+}
+# Copy contents of a file
+function xf() { cat "$1" | x; }
+# Copy SSH public key
+# alias xssh="cbf ~/.ssh/id_rsa.pub"
+# Copy current working directory
+alias xwd="pwd | x"
+# Copy most recent command in bash history
+alias xhs="echo !! | x"
+
 # By default, ^S freezes terminal output and ^Q resumes it. Disable that so
 # that those keys can be used for other things.
 unsetopt flowcontrol
