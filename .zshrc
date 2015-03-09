@@ -106,11 +106,10 @@ x() {
     if [[ "$USER" == "root" ]]; then
         echo "Must be regular user (not root) to copy a file to the clipboard."
     else
-        # If no tty, data should be available on stdin
-        if [[ "$(tty)" == /dev/* ]]; then
-            xclip -out
-        else
+        if [[ -p /dev/stdin ]]; then
             xclip -selection p
+        else
+            xclip -out
         fi
     fi
 }
