@@ -20,7 +20,8 @@ URxvt*scrollBar:    false
 URxvt*loginShell:   true
 URxvt*visualBell:   true
 ! Disable print key
-URxvt*print-pipe:   cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
+URxvt*print-pipe:   cat > $HOME/.urxvtprint
+!URxvt*print-pipe:   cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
 !XTerm.VT100.scrollTtyOutput             : false
 !XTerm.VT100.scrollKey                   : true
 
