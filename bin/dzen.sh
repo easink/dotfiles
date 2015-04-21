@@ -16,6 +16,9 @@ BAR_HW=40
 BAR_VH=12
 BAR_VW=3
 BAR_ARGS="-bg $BAR_BG -fg $BAR_FG -w $BAR_HW -h $BAR_HH"
+COL_NORM=${BAR_FG}
+COL_WARN='#ff9800'
+COL_CRIT='#ff4747'
 ICON_DIR="${HOME}/.share/icons/dzen"
 NETWORK_INTERFACE=eth1
 NET_DOWN_MAX=55
@@ -26,17 +29,30 @@ MAILDIR=~/mail/GmailMain
 # Battery config
 BAT_FILEBASE="/sys/class/power_supply/BAT0/charge"
 BAT_FULL=$(<${BAT_FILEBASE}_full) # battery charged full
-BAT_LOW=25           # percentage of battery life marked as low
-BAT_LOWCOL='#ff4747' # color when battery is low
+BAT_LOW=25                        # percentage of battery life marked as low
+BAT_LOWCOL=${COL_WARN}            # color when battery is low
+BAT_CRIT=5                        # percentage of battery life marked as critical
+BAT_CRITCOL=${COL_CRIT}           # color when battery is critical
+
+# CPU config
+CPU_BASE="/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_"
+CPU_INPUT=$CPU_BASE"input"
+CPU_WARN=$(<$CPU_BASE"max")
+CPU_CRIT=$(<$CPU_BASE"crit")
 
 # Volume config
 VOLCTRL="Master,0"
-VOLINC="amixer -c0 sset $VOLCTRL 5dB+ >/dev/null"
-VOLDEC="amixer -c0 sset $VOLCTRL 5dB- >/dev/null"
+VOLINC_CMD="amixer -c0 sset $VOLCTRL 5dB+ >/dev/null"
+VOLDEC_CMD="amixer -c0 sset $VOLCTRL 5dB- >/dev/null"
 #VOLMAX=$(amixer -c0 get $VOLCTRL | awk '/^  Limits/ { print $5 }')
 #VOLMAX=100
 #VOLCUR="amixer -c0 get PCM | awk '/^  Front Left/ { print \$4 \" \" $VOLMAX }'"
 
+# Verification
+## CPU
+[[ $CPU_CRIT -gt 0 ]] || echo "[E] CPU function error!" || exit
+## BATTERY
+[[ $BAT_FULL -gt 0 ]] || echo "[E] Battery function error!" || exit
 
 #GLOBALIVAL=1m
 # Main loop interval in seconds
@@ -77,7 +93,7 @@ fgtime()
 # Format: label1 mountpoint1 label2 mountpoint2 ... labelN mountpointN
 # Copied and modified from Rob
 fdisk() {
-    local rstr; local tstr; local i; local sep
+    local rstr tstr i sep
     for i in ${(k)DISKS}; do
         tstr=$(print `df -h $DISKS[$i]|sed -ne 's/^.* \([0-9]*\)% .*/\1/p'` 100 | \
             dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG -l "${i}" -nonl | \
@@ -91,10 +107,11 @@ fdisk() {
 }
 
 # Requires mesure
+# or /proc/net/dev
 fnet() {
-    local up; local down
-    up=`mesure -K -l -c 3 -t -o $NETWORK_INTERFACE`
-    down=`mesure -K -l -c 3 -t -i $NETWORK_INTERFACE`
+    local up down
+    up=$(mesure -K -l -c 3 -t -o $NETWORK_INTERFACE)
+    down=$(mesure -K -l -c 3 -t -i $NETWORK_INTERFACE)
     echo "$down $up"
 }
 
@@ -111,7 +128,16 @@ fwnet()
 
 fcputemp()
 {
-    print -n ${(@)$(</sys/class/thermal/thermal_zone0/temp)[2,3]}
+    local temp color
+
+    color=$COL_NORM
+    temp=$(<$CPU_INPUT)
+    # print -n ${(@)$(</sys/class/thermal/thermal_zone0/temp)[2,3]}
+    if [[ $temp -ge $CPU_WARN ]]; then
+        color=$COL_WARN
+        [[ $temp -ge $CPU_CRIT ]] && color=$COL_CRIT
+        print -n "^fg($color)$(($temp / 1000))^fg()°C"
+    fi
 }
 
 #np()
@@ -127,6 +153,7 @@ fcputemp()
 
 fcpu()
 {
+    print -n "^i(${ICON_DIR}/cpu2.xpm)"
     dzen2-gcpubar -c 2 -bg $BAR_BG -fg $BAR_FG -w $BAR_HW -h $BAR_HH | tail -n1 | tr -d '\n'
 }
 
@@ -135,13 +162,26 @@ fmail() {
 }
 
 fbattery() {
-    BAT_NOW=$(<${BAT_FILEBASE}_now)   # battery charge status
-    BAT_PERC=$(($BAT_NOW*100/$BAT_FULL))
+    local ac_online bat_now bat_perc color
 
-    if [ $BAT_PERC -le $BAT_LOW ]; then GFG=$BAT_LOWCOL; fi
-    print -n "^i(${ICON_DIR}/battery.xbm)"
-#    print -n " ${BAT_PERC}% "
-    print $BAT_PERC | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
+    ac_online=$(</sys/class/power_supply/AC/online)
+    bat_now=$(<${BAT_FILEBASE}_now)   # battery charge status
+    bat_perc=$(($bat_now * 100 / $BAT_FULL))
+    color=$BAR_FG
+    if [[ $ac_online -eq 1 ]]; then
+        # AC online
+        print -n "^i(${ICON_DIR}/battery_ac.xpm)"
+        if [[ $bat_perc -lt 100 ]]; then print -n " ${bat_perc}%"; fi
+    else
+        # AC offline, using battery
+        print -n "^i(${ICON_DIR}/battery.xbm)"
+        if [[ $bat_perc -lt $BAT_LOW ]]; then
+            color=$BAT_LOWCOL
+            [[ $bat_perc -le $BAT_CRIT ]] && color=$BAT_CRITCOL
+            print -n "^fg($COL_WARN)${bat_perc}^fg()%"
+        fi
+        print $bat_perc | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $color -bg $BAR_BG
+    fi
 }
 
 #VOLCUR=0
@@ -155,7 +195,6 @@ fvolume() {
 #    print $VOLCUR
 }
 
-
 DATEI=$DATEIVAL
 #TIMEI=$
 DISKI=$DISKIVAL
@@ -165,7 +204,7 @@ CPUI=$CPUIVAL
 #NETI=$NETIVAL
 WNETI=$WNETIVAL
 BATI=$BATIVAL
-VOLI=$VOLIVAL
+#VOLI=$VOLIVAL
 
 #date=$(_date)
 #times=$(_time)
@@ -181,10 +220,10 @@ while true; do
     #[[ $NPI -ge $NPIVAL ]] && PNP=$(np) && NPI=0
     [[ $CPUI -ge $CPUIVAL ]] && PCPU=$(fcpu) && CPUI=0
     [[ $CPUTEMPI -ge $CPUTEMPIVAL ]] && PCPUTEMP=$(fcputemp) && CPUTEMPI=0
-#    [[ $NETI -ge $NETIVAL ]] && PNET=( `get_net_rates` ) && NETI=0
+    #[[ $NETI -ge $NETIVAL ]] && PNET=( `get_net_rates` ) && NETI=0
     [[ $WNETI -ge $WNETIVAL ]] && PWNET=$(fwnet) && WNETI=0
     [[ $BATI -ge $BATIVAL ]] && PBAT=$(fbattery) && BATI=0
-    [[ $VOLI -ge $VOLIVAL ]] && PVOL=$(fvolume) && VOLI=0
+    #[[ $VOLI -ge $VOLIVAL ]] && PVOL=$(fvolume) && VOLI=0
 
     # Disk usage
 #    echo -n "${disk_usage}${SEPERATOR}"
@@ -206,32 +245,32 @@ while true; do
 
     # Cpu temp
     #print -n "^i(${ICON_DIR}/cpu.xpm)"
-    print -n ${PCPU}${SEPERATOR}
+    print -n ${PCPU}
     print -n ${PCPUTEMP}${SEPERATOR}
 
     # Battery
     print -n ${PBAT}${SEPERATOR}
 
     # Volume
-    print -n ${PVOL}${SEPERATOR}
+    #print -n ${PVOL}${SEPERATOR}
 
     # Wlan
     print -n ${PWNET}${SEPERATOR}
 
     # Time and date
-#    echo -n "${times}${SEPERATOR}"
+    #echo -n "${times}${SEPERATOR}"
     print "${PDATE}"
 
     DATEI=$(($DATEI+1))
-#    TIMEI=$(($TIMEI+1))
+    #TIMEI=$(($TIMEI+1))
     DISKI=$(($DISKI+1))
-#    NPI=$(($NPI+1))
+    #NPI=$(($NPI+1))
     CPUI=$(($CPUI+1))
     CPUTEMPI=$(($CPUTEMPI+1))
-#    NETI=$(($NETI+1))
+    #NETI=$(($NETI+1))
     WNETI=$(($WNETI+1))
     BATI=$(($BATI+1))
-    VOLI=$(($VOLI+1))
+    #VOLI=$(($VOLI+1))
 
     sleep $INTERVAL
 done
