@@ -181,7 +181,7 @@ prompt_grb_setup() {
 
     RPROMPT=
     if [ $verbose ]; then
-        RPROMPT+="[ $pc[scm_branch]\$(prompt_wunjo_scm_branch)$pc[reset]"
+        RPROMPT+="[$pc[scm_branch]\$(prompt_wunjo_scm_branch)$pc[reset]"
     #    RPROMPT+="$pc[path]%n$pc[reset]"
     ##   RPROMPT+="$p_date "
     fi
