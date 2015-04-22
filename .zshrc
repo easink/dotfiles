@@ -33,6 +33,9 @@ export EDITOR=vi
 # set -o emacs
 set -o vi
 
+# Search backward in history
+bindkey '^R' history-incremental-search-backward
+
 # Use C-x C-e to edit the current command line
 autoload -U edit-command-line
 zle -N edit-command-line
@@ -159,11 +162,12 @@ _scrollback_buffer_words() {
         /bin/echo -e -n '\e[i'
         # w=( ${(u)=$(sleep 0.1; /bin/cat $HOME/.xxx)} )
         w=( ${(u)=$(sleep 0.1; /bin/cat $HOME/.urxvtprint)} )
+        _wanted values expl 'words from current buffer' compadd -a w
     else
         # tmux
         w=( ${(u)=$(tmux capture-pane \; show-buffer \; delete-buffer)} )
+        _wanted values expl 'words from current tmux pane' compadd -a w
     fi
-    _wanted values expl 'words from current buffer' compadd -a w
 }
 
 zle -C scrollback-buffer-words-prefix   complete-word _generic
