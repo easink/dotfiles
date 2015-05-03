@@ -123,7 +123,7 @@ function xf() { cat "$1" | x; }
 # alias xssh="cbf ~/.ssh/id_rsa.pub"
 # Copy current working directory
 alias xwd="pwd | x"
-# Copy most recent command in bash history
+# Copy most recent command in shell history
 alias xhs="echo !! | x"
 
 # By default, ^S freezes terminal output and ^Q resumes it. Disable that so
@@ -181,4 +181,27 @@ bindkey -M viins "^X" scrollback-buffer-words-anywhere
 zstyle ':completion:scrollback-buffer-words-(prefix|anywhere):*' completer _scrollback_buffer_words
 zstyle ':completion:scrollback-buffer-words-(prefix|anywhere):*' ignore-line current
 zstyle ':completion:scrollback-buffer-words-anywhere:*' matcher-list 'b:=* m:{A-Za-z}={a-zA-Z}'
+
+# git
+alias g="git"
+alias ga="git add"
+alias gl="git l"
+alias ge='vim "$(git ls-files | selecta)"'
+alias gd="git diff"
+alias gf="git fetch"
+alias gfa="git fetch --all"
+# alias gre="git remote"
+alias gp="git push"
+alias gs="git status"
+alias gco="git checkout"
+alias gcm="git commit -v"
+alias gre="git reset"
+alias grm="git rm"
+
+# tmux
+alias t="tmux"
+alias ta="tmux attach"
+alias ts="tmux attach -t $(tmux ls| selecta | cut -d: -f1)"
+alias tls="tmux ls"
+
 
