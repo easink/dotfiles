@@ -201,7 +201,7 @@ alias grm="git rm"
 # tmux
 alias t="tmux"
 alias ta="tmux attach"
-alias ts="tmux attach -t $(tmux ls| selecta | cut -d: -f1)"
+alias ts='tmux attach -t "$(tmux ls| selecta | cut -d: -f1)"'
 alias tls="tmux ls"
 
 
