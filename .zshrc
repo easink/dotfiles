@@ -12,10 +12,6 @@ compinit
 export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
 export PATH="$HOME/bin:$PATH"
 
-# By default, ^S freezes terminal output and ^Q resumes it. Disable that so
-# that those keys can be used for other things.
-unsetopt flowcontrol
-
 # Colorize terminal
 alias ls='ls -G'
 alias ll='ls -lG'
@@ -35,6 +31,8 @@ set -o vi
 
 # Search backward in history
 bindkey '^R' history-incremental-search-backward
+# Insert last word from prev command
+bindkey "^[." insert-last-word
 
 # Use C-x C-e to edit the current command line
 autoload -U edit-command-line
