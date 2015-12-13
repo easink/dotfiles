@@ -1,12 +1,19 @@
-clear Shift
+#clear Shift
+# disable Caps Lock
 clear Lock
-clear Control
-clear Mod1
+#clear Control
+#clear Mod1
 
-add    Shift   = Shift_L Shift_R
-add    Control = Control_L Control_R
-add    Mod1    = Alt_L
+#add    Shift   = Shift_L Shift_R
+#add    Control = Control_L Control_R
+#add    Mod1    = Alt_L
 
-keycode 0x09 = NoSymbol
-keycode 0x42 = Escape NoSymbol Escape
+keycode 9 = NoSymbol
+# Caps Lock -> Escape
+keycode 66 = Escape NoSymbol Escape
+
+# Fix åäö
+keycode 34 = bracketleft braceleft bracketleft braceleft aring Aring
+keycode 48 = apostrophe quotedbl apostrophe quotedbl adiaeresis Adiaeresis
+keycode 47 = semicolon colon semicolon colon odiaeresis Odiaeresis
 

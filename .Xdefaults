@@ -25,8 +25,11 @@ URxvt*print-pipe:   cat > $HOME/.urxvtprint
 
 VIM*title:      VIM
 VIM*saveLines:  0
-#VIM*font:       -*-terminus-*-r-*-*-*-*-*-*-*-*-iso10646-1
-VIM*font:       terminus
+!VIM*font:       -*-terminus-*-r-*-*-*-*-*-*-*-*-iso10646-1
+!VIM*font:       terminus
+!VIM*font:       xft:terminus:size=10
+VIM*font:       xft:terminus:size=10
+VIM*letterSpace: 0
 
 
 !XTerm.VT100.scrollTtyOutput             : false

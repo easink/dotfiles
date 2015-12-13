@@ -9,11 +9,12 @@ fi
 PATH=$PATH:/usr/sbin
 
 SHELL=/bin/zsh; export SHELL
-LC_CTYPE=sv_SE.UTF-8; export LC_CTYPE
+LC_CTYPE=en_US.UTF-8; export LC_CTYPE
 FONT="-*-lime-*-*-*-*-*-*-*-*-*-*-iso10646-*"
 
 #[[ -f ~/.xmodmap-$(uname -n) ]] && xmodmap ~/.xmodmap-$(uname -n) || xmodmap ~/.xmodmap-default
 #[[ -f ~/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
+setxkbmap -layout 'us(intl)'
 xmodmap ~/.xmodmap-default
 xrdb -merge ~/.Xdefaults
 
