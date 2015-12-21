@@ -1,59 +1,103 @@
-#ZSHA_BASE=$HOME/.zsh/.antigen
-source $HOME/.zsh/antigen.git/antigen.zsh
+[ -e $HOME/.zsh/settings      ] && source $HOME/.zsh/settings
+[ -e $HOME/.zsh/aliases       ] && source $HOME/.zsh/aliases
+# [ -e $HOME/.zsh/colour        ] && source $HOME/.zsh/colour
+[ -e $HOME/.zsh/prompt        ] && source $HOME/.zsh/prompt
+# [ -e $HOME/.zsh/bindings      ] && source $HOME/.zsh/bindings
+[ -e $HOME/.zsh/completion    ] && source $HOME/.zsh/completion
+[ -d $HOME/.zsh/plugins/      ] && for plugin in $HOME/.zsh/plugins/*(.)zsh; do
+    source $plugin
+done
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+# export HOME="/sun"
+# export DEBEMAIL="s5unty@gmail.com"
+# export DEBFULLNAME="Vern Sun"
+# export TZ='Asia/Shanghai'
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
+if [ $(tty | grep -c pts) -eq 1 ]; then
+    stty -ixon -ixoff
+    export TERM="rxvt-unicode-256color"
+    # export LANG="zh_CN.UTF-8"
+fi
 
-# Syntax highlighting bundle.
-# antigen bundle zsh-users/zsh-syntax-highlighting
+# if [[ -f $HOME/.zsh/dircolors ]] ; then
+#     eval $(dircolors -b $HOME/.zsh/dircolors)
+# fi
 
-# Automatically list directory contents on `cd`.
-# auto-ls () { ls; }
-# chpwd_functions=( auto-ls $chpwd_functions )
 
-# Additional completion definitions for Zsh
-antigen bundle zsh-users/zsh-completions
+# Initialize completion
+autoload -U compinit
+compinit
 
-# bindkey "^I" expand-cmd-path
+# Add paths
+export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
+export PATH="$HOME/bin:$PATH"
 
-# _complete_files () {
-#      eval "$_comp_setup"
-#        _main_complete _files
-#    }
-#    compdef -k _complete_files complete-word '^X/'
+# Nicer history
+export HISTSIZE=100000
+export HISTFILE="$HOME/.history"
+export SAVEHIST=$HISTSIZE
+# dont add command to history if begin with a space
+set HIST_IGNORE_SPACE
 
-# Add the history substring plugin to enable fish style search
-antigen bundle zsh-users/zsh-history-substring-search
+# Use vim as the editor
+export EDITOR=vi
+# GNU Screen sets -o vi if EDITOR=vi, so we have to force it back.
+# set -o emacs
+set -o vi
 
-# bind UP and DOWN arrow keys
-# zmodload zsh/terminfo
-# bindkey "$terminfo[kcuu1]" history-substring-search-up
-# bindkey "$terminfo[kcud1]" history-substring-search-down
+# Search backward in history
+bindkey '^R' history-incremental-search-backward
+# Insert last word from prev command
+bindkey "^[." insert-last-word
 
-# Load the theme.
-# antigen theme robbyrussell
-# antigen theme amuse
-# antigen theme sonicradish
-# antigen theme blinks
+# Use C-x C-e to edit the current command line
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
 
-# Fish-style autosuggest
-# antigen bundle tarruda/zsh-autosuggestions
+# By default, zsh considers many characters part of a word (e.g., _ and -).
+# Narrow that down to allow easier skipping through words via M-f and M-b.
+export WORDCHARS='*?[]~&;!$%^<>'
 
-# Setup suggestions
-# zle-line-init() {
-#     zle autosuggest-start
-# }
-# zle -N zle-line-init
+# Highlight search results in ack.
+export ACK_COLOR_MATCH='red'
 
-# Accept suggestions without leaving insert mode
-# bindkey '^f' vi-forward-word
-# or
-# bindkey '^f' vi-forward-blank-word
+# Aliases
+#function t() {
+#    if [ -e script/test ]; then
+#        script/test $*
+#    else
+#        rspec --color spec
+#    fi
+#}
+#function lack() {
+#    # The +k clears the screen (it tries to scroll up but there's nowhere to
+#    # go)
+#    ack --group --color $* | less -r +k
+#}
+# ------------------------------------------------
 
-#bindkey -v
 
-# Tell antigen that you're done.
-antigen apply
+# git
+alias g="git"
+alias ga="git add"
+alias gl="git l"
+alias ge='vim "$(git ls-files | selecta)"'
+alias gd="git diff"
+alias gf="git fetch"
+alias gfa="git fetch --all"
+# alias gre="git remote"
+alias gp="git push"
+alias gs="git status"
+alias gco="git checkout"
+alias gcm="git commit -v"
+alias gre="git reset"
+alias grm="git rm"
+
+# tmux
+alias t="tmux"
+alias ta="tmux attach"
+alias ts='tmux attach -t "$(tmux ls| selecta | cut -d: -f1)"'
+alias tls="tmux ls"
+
+
