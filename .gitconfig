@@ -37,8 +37,9 @@
     tool = vimdiff
 
 [push]
-	default = simple
-# [http]
-# 	proxy = http://10.0.0.3:3128
-# [https]
-# 	proxy = https://10.0.0.3:3128
+    default = simple
+
+[http]
+    # proxy = http://10.0.0.3:3128
+[https]
+    # proxy = https://10.0.0.3:3128
