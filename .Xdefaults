@@ -23,6 +23,15 @@ URxvt*visualBell:   true
 URxvt*print-pipe:   cat > $HOME/.urxvtprint
 !URxvt*print-pipe:   cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
 
+URxvt.perl-ext-common: font-size
+
+! Add some keybindings:
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+
+
 VIM*title:      VIM
 VIM*saveLines:  0
 !VIM*font:       -*-terminus-*-r-*-*-*-*-*-*-*-*-iso10646-1
