@@ -82,17 +82,20 @@ export ACK_COLOR_MATCH='red'
 alias g="git"
 alias ga="git add"
 alias gl="git l"
+alias gla="git l --all"
+alias glah="git l --all | head"
 alias ge='vim "$(git ls-files | selecta)"'
 alias gd="git diff"
 alias gf="git fetch"
 alias gfa="git fetch --all"
+alias gff="git merge --ff-only"
 # alias gre="git remote"
 alias gp="git push"
-alias gs="git status"
+alias gst="git status"
 alias gco="git checkout"
 alias gcm="git commit -v"
-alias gre="git reset"
-alias grm="git rm"
+alias gca="git commit -av"
+alias gclean="git clean -xfd"
 
 # tmux
 alias t="tmux"
