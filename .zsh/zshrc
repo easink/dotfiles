@@ -84,6 +84,7 @@ alias ga="git add"
 alias gl="git l"
 alias gla="git l --all"
 alias glah="git l --all | head"
+alias gls="git ls-files"
 alias ge='vim "$(git ls-files | selecta)"'
 alias gd="git diff"
 alias gf="git fetch"
