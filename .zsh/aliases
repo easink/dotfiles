@@ -1,0 +1,9 @@
+# vim:set ft=zsh:
+
+# Colorize terminal
+alias ls='ls -G'
+alias ll='ls -lG'
+export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
+alias grep='grep --color'
+
+

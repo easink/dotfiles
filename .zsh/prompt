@@ -1,0 +1,8 @@
+# vim: ft=zsh:
+
+# Set custom prompt
+setopt PROMPT_SUBST
+autoload -U promptinit
+promptinit
+prompt grb
+

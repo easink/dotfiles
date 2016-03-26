@@ -1,0 +1,213 @@
+# vim: ft=zsh:
+bindkey -v
+
+# Ctrl - Key
+bindkey -M viins "^A"   vi-digit-or-beginning-of-line
+bindkey -M viins "^E"   vi-end-of-line
+bindkey -M viins "^S"   list-expand
+bindkey -M viins "^N"   history-search-forward
+bindkey -M viins "^P"   history-search-backward
+bindkey -M viins "^X"   delete-char
+bindkey -M viins "^F"   forward-char
+bindkey -M viins "^B"   backward-char
+bindkey -M viins "^H"   backward-delete-char
+bindkey -M viins "^D"   list-choices
+bindkey -M viins "^W"   backward-kill-word
+bindkey -M viins "^Q"   backward-kill-line
+bindkey -M viins "^K"   kill-line
+bindkey -M viins "^U"   undo
+bindkey -M viins "^R"   redo
+bindkey -M viins "^O"   ranger-cd
+
+# Alt - Key
+bindkey -M viins "\er"  history-incremental-search-backward
+bindkey -M viins "\ea"  _beginning-of-args
+bindkey -M viins "\ew"  _vi-backward-blank
+bindkey -M viins "\ee"  _vi-forward-blank
+bindkey -M viins "\eb"  vi-backward-blank-word
+bindkey -M viins "\ef"  vi-forward-blank-word
+bindkey -M viins "\en"  zsh-history-substring-search-forward
+bindkey -M viins "\ep"  zsh-history-substring-search-backward
+bindkey -M viins "\eq"  push-line
+bindkey -M viins "\ek"  run-help
+bindkey -M viins "\ei"  osc-ipaddr
+bindkey -M viins "\eK"  which-command
+bindkey -M viins "\e."  insert-last-word
+bindkey -M viins "\e,"  insert-last-word-prior
+bindkey -M viins "\e/"  jump-around-directory
+bindkey -M viins "\e?"  list-directory-stack
+bindkey -M viins "\e;"  copy-earlier-word
+bindkey -M viins "\e\t" urxvt-scrollback-buffer-words-prefix
+bindkey -M viins "^[[Z" urxvt-scrollback-buffer-words-anywhere
+
+bindkey -M viins "\e1"  digit-argument
+bindkey -M viins "\e2"  digit-argument
+bindkey -M viins "\e3"  digit-argument
+bindkey -M viins "\e4"  digit-argument
+bindkey -M viins "\e5"  digit-argument
+bindkey -M viins "\e6"  digit-argument
+bindkey -M viins "\e7"  digit-argument
+bindkey -M viins "\e8"  digit-argument
+bindkey -M viins "\e9"  digit-argument
+bindkey -M viins "\e0"  digit-argument
+bindkey -M viins "\e-"  neg-argument
+
+bindkey -M menuselect "^D"   send-break
+bindkey -M menuselect "\e"   send-break
+bindkey -M menuselect "\e\-" undo
+bindkey -M menuselect " "    magic-space
+bindkey -M menuselect "\e "  accept-and-menu-complete
+bindkey -M menuselect "\r"   accept-search
+bindkey -M menuselect "\eh"  backward-char
+bindkey -M menuselect "\el"  forward-char
+bindkey -M menuselect "\ej"  down-history
+bindkey -M menuselect "\ek"  up-history
+
+
+# Zle function
+list-directory-stack() {
+    zle -I
+    dirs -v | head -10 | sort -nr | head -n +9
+}
+zle -N list-directory-stack
+
+# 插入模式光标灰色
+# 命令模式光标红色
+zle-keymap-select () {
+    if [ "$TERM" = "rxvt-unicode-256color" ]; then
+        if [ $KEYMAP = vicmd ]; then
+            echo -ne "\033]12;#ff0087\007"
+        else
+            echo -ne "\033]12;#3a3a3a\007"
+        fi
+    fi
+    zle reset-prompt
+}; zle -N zle-keymap-select
+zle-line-init () {
+    zle -K viins
+    if [ "$TERM" = "rxvt-unicode-256color" ]; then
+        echo -ne "\033]12;#3a3a3a\007"
+    fi
+}; zle -N zle-line-init
+
+# 不带参数表示执行 cd -
+#   直接按快捷键相当于执行 cd -
+#
+# 带正参数表示执行 cd .. (n-1 次)
+#   按 Alt-3 再按快捷键相当于执行 3-1=2 次 cd ..
+#
+# 带负参数表示执行 cd -n
+#   按 Alt-- 再按 Alt-5 再按快捷键相当于执行 cd -5
+jump-around-directory() {
+    zle -I
+    integer count=${NUMERIC:-0}
+    upper=""
+    if (( count > 0 )); then
+        while (( --count > 0 )); do
+            upper+="../"
+        done
+    elif (( count == 0)); then
+        upper="-"
+    else
+        upper="$count"
+    fi
+
+    builtin cd ${upper} > /dev/null
+}
+zle -N jump-around-directory
+
+# 上一条命令的倒数第二个参数
+insert-last-word-prior() {
+    zle insert-last-word -- -1 -2
+}
+zle -N insert-last-word-prior
+
+_vi-backward-blank() {
+    zle vi-backward-blank-word
+    zle vi-backward-char
+}
+zle -N _vi-backward-blank
+
+_vi-forward-blank() {
+    zle vi-forward-blank-word-end
+    zle vi-add-next
+}
+zle -N _vi-forward-blank
+
+_beginning-of-args() {
+    zle vi-beginning-of-line
+    zle _vi-forward-blank
+}
+zle -N _beginning-of-args
+
+osc-ipaddr() {
+    zle -I
+    __IP=`/sbin/ifconfig -v | egrep 'inet addr:.*Bcast:.*Mask:.*' | uniq | tail -1 | cut -d'.' -f4 | cut -d' ' -f1`
+    printf "\033]777;overlay;simple;ov1;8;-1;0;t;$__IP\007"
+}
+zle -N osc-ipaddr
+
+ranger-cd() {
+    tempfile='/tmp/chosendir'
+    ranger --choosedir="$tempfile" "${@:-$(pwd)}" <$TTY
+    test -f "$tempfile" &&
+    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+        builtin cd -- "$(cat "$tempfile")"
+    fi
+    rm -f -- "$tempfile"
+
+    zle redisplay
+    precmd
+    zle reset-prompt
+}
+zle -N ranger-cd
+
+# {{{1
+typeset -g -A key
+
+key[F1]='^[[11~'
+key[F2]='^[[12~'
+key[F3]='^[[13~'
+key[F4]='^[[14~'
+key[F5]='^[[15~'
+key[F6]='^[[17~'
+key[F7]='^[[18~'
+key[F8]='^[[19~'
+key[F9]='^[[20~'
+key[F10]='^[[21~'
+key[F11]='^[[23~'
+key[F12]='^[[24~'
+key[Backspace]='^?'
+key[Insert]='^[[2~'
+key[Home]='^[[7~'
+key[PageUp]='^[[5~'
+key[Delete]='^[[3~'
+key[End]='^[[8~'
+key[PageDown]='^[[6~'
+key[Up]='^[[A'
+key[Left]='^[[D'
+key[Down]='^[[B'
+key[Right]='^[[C'
+key[Menu]='^[[29~'
+
+[[ -n "${key[Backspace]}" ]]  && bindkey -M viins "${key[Backspace]}" backward-delete-char
+[[ -n "${key[Home]}"      ]]  && bindkey -M viins "${key[Home]}"      beginning-of-line
+[[ -n "${key[End]}"       ]]  && bindkey -M viins "${key[End]}"       end-of-line
+[[ -n "${key[Insert]}"    ]]  && bindkey -M viins "${key[Insert]}"    overwrite-mode
+[[ -n "${key[Delete]}"    ]]  && bindkey -M viins "${key[Delete]}"    delete-char
+[[ -n "${key[Up]}"        ]]  && bindkey -M viins "${key[Up]}"        up-line-or-history
+[[ -n "${key[Down]}"      ]]  && bindkey -M viins "${key[Down]}"      down-line-or-history
+[[ -n "${key[Left]}"      ]]  && bindkey -M viins "${key[Left]}"      backward-char
+[[ -n "${key[Right]}"     ]]  && bindkey -M viins "${key[Right]}"     forward-char
+
+[[ -n "${key[Backspace]}" ]]  && bindkey -M vicmd "${key[Backspace]}" backward-delete-char
+[[ -n "${key[Home]}"      ]]  && bindkey -M vicmd "${key[Home]}"      beginning-of-line
+[[ -n "${key[End]}"       ]]  && bindkey -M vicmd "${key[End]}"       end-of-line
+[[ -n "${key[Insert]}"    ]]  && bindkey -M vicmd "${key[Insert]}"    overwrite-mode
+[[ -n "${key[Delete]}"    ]]  && bindkey -M vicmd "${key[Delete]}"    delete-char
+[[ -n "${key[Up]}"        ]]  && bindkey -M vicmd "${key[Up]}"        up-line-or-history
+[[ -n "${key[Down]}"      ]]  && bindkey -M vicmd "${key[Down]}"      down-line-or-history
+[[ -n "${key[Left]}"      ]]  && bindkey -M vicmd "${key[Left]}"      backward-char
+[[ -n "${key[Right]}"     ]]  && bindkey -M vicmd "${key[Right]}"     forward-char
+# }}}1
+

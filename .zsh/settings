@@ -1,0 +1,72 @@
+# vim: ft=zsh:
+
+# export _Z_DATA=$HOME/.zsh/cache/DIRSTACK
+export WORDCHARS='*?_-[]~=&:;!#$%^(){}<>'
+export MAILDIR="$HOME/maildir"
+export LISTPROMPT=""
+# export DEBIAN_DIR=""
+# export REPREPRO_CONFIG_DIR=""
+# export MAILCHECK=150
+export EDITOR="/usr/bin/vim"
+export VISUAL="/usr/bin/vim"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/X11:/usr/games:/opt/atf/bin:."
+# export JAVA_HOME="/usr/lib/jvm/java-6-sun"
+# export CLASSPATH=".:$JAVA_HOME/class/:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"
+export XDG_CONFIG_HOME="$HOME/.config"
+# export PATH="$PATH:/var/lib/gems/1.8/bin/"
+export TERM="xterm"
+export LANG="C"
+# export SDCV_HISTSIZE=32
+
+autoload zsh/terminfo
+autoload -U is-at-least
+autoload -U zmv
+autoload -U zed
+autoload -U compinit && compinit
+autoload -U insert-files && zle -N insert-files
+autoload -U copy-earlier-word && zle -N copy-earlier-word
+autoload -U edit-command-line && zle -N edit-command-line
+#autoload -U url-quote-magic && zle -N self-insert url-quote-magic
+
+zmodload -i zsh/complist
+zmodload -i zsh/deltochar
+zmodload -i zsh/mathfunc
+zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -a zsh/zprof zprof
+zmodload -a zsh/mapfile mapfile
+
+setopt AUTO_PUSHD
+setopt AUTO_CD
+setopt CDABLE_VARS
+setopt PROMPT_SUBST
+setopt PUSHD_MINUS
+setopt PUSHD_SILENT
+setopt PUSHD_TO_HOME
+setopt PUSHD_IGNOREDUPS
+
+# Nicer history
+export HISTFILE=$HOME/.zsh/cache/HISTFILE
+export HISTSIZE=100000
+export SAVEHIST=102400
+
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_NO_STORE
+setopt HIST_VERIFY
+setopt HIST_REDUCE_BLANKS
+
+# setopt RM_STAR_WAIT
+setopt FLOW_CONTROL         # don't ignore ^S/^Q
+setopt LONGLISTJOBS         # display PID when suspending processes as well
+setopt NOTIFY               # report the status of backgrounds jobs immediately
+setopt COMPLETEINWORD       # not just at the end
+#setopt EXTENDEDGLOB         # 扩展文件名匹配功能
+
+if is-at-least 4.3.12; then
+    setopt HIST_LEX_WORDS
+    setopt HIST_FCNTL_LOCK
+fi
+
