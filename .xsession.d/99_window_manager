@@ -1,0 +1,5 @@
+# execute window manager
+
+exec xmonad
+
+# vim:ft=zsh

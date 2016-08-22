@@ -1,0 +1,5 @@
+ # load the keyboard definitions
+
+xrdb -merge ~/.Xdefaults
+
+# vim:ft=zsh#

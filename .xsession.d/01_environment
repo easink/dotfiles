@@ -1,0 +1,15 @@
+# load environment
+
+PATH=$PATH:/usr/sbin
+
+SHELL=/bin/zsh; export SHELL
+LC_CTYPE=en_US.UTF-8; export LC_CTYPE
+FONT="-*-lime-*-*-*-*-*-*-*-*-*-*-iso10646-*"
+
+# Fix blank java windows
+export _JAVA_AWT_WM_NONREPARENTING=1
+# export SETWMNAME=LG3D
+
+# export XDG_RUNTIME_DIR=$RUNDIR
+
+# vim:ft=zsh
