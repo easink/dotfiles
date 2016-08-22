@@ -1,7 +1,17 @@
 # vim: ft=zsh:
 
+# export HOME="/home/andreas"
+# export EMAIL="andreas.rydbrink@gmail.com"
+# export FULLNAME="Andreas Rydbrink"
+# export TZ='Europe/Stockholm'
+
 # export _Z_DATA=$HOME/.zsh/cache/DIRSTACK
-export WORDCHARS='*?_-[]~=&:;!#$%^(){}<>'
+
+# By default, zsh considers many characters part of a word (e.g., _ and -).
+# Narrow that down to allow easier skipping through words via M-f and M-b.
+export WORDCHARS='*?[]~&;!$%^<>'
+# export WORDCHARS='*?_-[]~=&:;!#$%^(){}<>'
+
 export MAILDIR="$HOME/maildir"
 export LISTPROMPT=""
 # export DEBIAN_DIR=""
@@ -9,14 +19,21 @@ export LISTPROMPT=""
 # export MAILCHECK=150
 export EDITOR="/usr/bin/vim"
 export VISUAL="/usr/bin/vim"
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/X11:/usr/games:/opt/atf/bin:."
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:${HOME}/bin:"
 # export JAVA_HOME="/usr/lib/jvm/java-6-sun"
 # export CLASSPATH=".:$JAVA_HOME/class/:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"
 export XDG_CONFIG_HOME="$HOME/.config"
 # export PATH="$PATH:/var/lib/gems/1.8/bin/"
-export TERM="xterm"
 export LANG="C"
 # export SDCV_HISTSIZE=32
+export VIRTUAL_ENV_DISABLE_PROMPT='1'
+
+if [ $(tty | grep -c pts) -eq 1 ]; then
+    stty -ixon -ixoff
+    export TERM="rxvt-unicode-256color"
+    # export LANG="sv_SE.UTF-8"
+fi
+# export TERM="xterm"
 
 autoload zsh/terminfo
 autoload -U is-at-least
@@ -26,6 +43,8 @@ autoload -U compinit && compinit
 autoload -U insert-files && zle -N insert-files
 autoload -U copy-earlier-word && zle -N copy-earlier-word
 autoload -U edit-command-line && zle -N edit-command-line
+# bindkey '\C-x\C-e' edit-command-line
+
 #autoload -U url-quote-magic && zle -N self-insert url-quote-magic
 
 zmodload -i zsh/complist
@@ -69,4 +88,15 @@ if is-at-least 4.3.12; then
     setopt HIST_LEX_WORDS
     setopt HIST_FCNTL_LOCK
 fi
+
+# Use vim as the editor
+# export EDITOR=vi
+# GNU Screen sets -o vi if EDITOR=vi, so we have to force it back.
+# set -o emacs
+# set -o vi
+
+# Search backward in history
+# bindkey '^R' history-incremental-search-backward
+# Insert last word from prev command
+# bindkey "^[." insert-last-word
 

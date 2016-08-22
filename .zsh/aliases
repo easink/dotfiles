@@ -5,5 +5,46 @@ alias ls='ls -G'
 alias ll='ls -lG'
 export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 alias grep='grep --color'
+export ACK_COLOR_MATCH='red'
 
+# git
+alias g="git"
+alias ga="git add"
+alias gl="git l"
+alias gla="git l --all"
+alias glah="git l --all | head"
+alias gls="git ls-files"
+alias ge='vim "$(git ls-files | selecta)"'
+alias gd="git diff"
+alias gf="git fetch"
+alias gfa="git fetch --all"
+alias gff="git merge --ff-only"
+# alias gre="git remote"
+alias gp="git push"
+alias gst="git status"
+alias gco="git checkout"
+alias gcm="git commit -v"
+alias gca="git commit -av"
+alias gclean="git clean -xfd"
+
+# tmux
+alias t="tmux"
+alias ta="tmux attach"
+alias ts='tmux attach -t "$(tmux ls| selecta | cut -d: -f1)"'
+alias tls="tmux ls"
+
+# Aliases
+#function t() {
+#    if [ -e script/test ]; then
+#        script/test $*
+#    else
+#        rspec --color spec
+#    fi
+#}
+#function lack() {
+#    # The +k clears the screen (it tries to scroll up but there's nowhere to
+#    # go)
+#    ack --group --color $* | less -r +k
+#}
+# ------------------------------------------------
 

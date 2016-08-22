@@ -8,100 +8,11 @@
     source $plugin
 done
 
-# export HOME="/sun"
-# export DEBEMAIL="s5unty@gmail.com"
-# export DEBFULLNAME="Vern Sun"
-# export TZ='Asia/Shanghai'
-
-if [ $(tty | grep -c pts) -eq 1 ]; then
-    stty -ixon -ixoff
-    export TERM="rxvt-unicode-256color"
-    # export LANG="zh_CN.UTF-8"
-fi
-
 # if [[ -f $HOME/.zsh/dircolors ]] ; then
 #     eval $(dircolors -b $HOME/.zsh/dircolors)
 # fi
 
-
-# Initialize completion
-autoload -U compinit
-compinit
-
 # Add paths
-export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
-export PATH="$HOME/bin:$PATH"
-
-# Nicer history
-export HISTSIZE=100000
-export HISTFILE="$HOME/.history"
-export SAVEHIST=$HISTSIZE
-# dont add command to history if begin with a space
-set HIST_IGNORE_SPACE
-
-# Use vim as the editor
-export EDITOR=vi
-# GNU Screen sets -o vi if EDITOR=vi, so we have to force it back.
-# set -o emacs
-set -o vi
-
-# Search backward in history
-bindkey '^R' history-incremental-search-backward
-# Insert last word from prev command
-bindkey "^[." insert-last-word
-
-# Use C-x C-e to edit the current command line
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '\C-x\C-e' edit-command-line
-
-# By default, zsh considers many characters part of a word (e.g., _ and -).
-# Narrow that down to allow easier skipping through words via M-f and M-b.
-export WORDCHARS='*?[]~&;!$%^<>'
-
-# Highlight search results in ack.
-export ACK_COLOR_MATCH='red'
-
-# Aliases
-#function t() {
-#    if [ -e script/test ]; then
-#        script/test $*
-#    else
-#        rspec --color spec
-#    fi
-#}
-#function lack() {
-#    # The +k clears the screen (it tries to scroll up but there's nowhere to
-#    # go)
-#    ack --group --color $* | less -r +k
-#}
-# ------------------------------------------------
-
-
-# git
-alias g="git"
-alias ga="git add"
-alias gl="git l"
-alias gla="git l --all"
-alias glah="git l --all | head"
-alias gls="git ls-files"
-alias ge='vim "$(git ls-files | selecta)"'
-alias gd="git diff"
-alias gf="git fetch"
-alias gfa="git fetch --all"
-alias gff="git merge --ff-only"
-# alias gre="git remote"
-alias gp="git push"
-alias gst="git status"
-alias gco="git checkout"
-alias gcm="git commit -v"
-alias gca="git commit -av"
-alias gclean="git clean -xfd"
-
-# tmux
-alias t="tmux"
-alias ta="tmux attach"
-alias ts='tmux attach -t "$(tmux ls| selecta | cut -d: -f1)"'
-alias tls="tmux ls"
-
+# export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
+# export PATH="$HOME/bin:$PATH"
 

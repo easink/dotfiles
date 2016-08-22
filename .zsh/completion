@@ -53,7 +53,7 @@ zstyle ':completion:*:*:*:users' ignored-patterns _dhcp _pflogd adm apache \
 	bitlbee debian-tor minbif root usbmux canna fetchmail privoxy
 
 zstyle ':completion:*' users \
-    vern \
+    andreas \
     root \
     admin \
     Administrator

@@ -139,6 +139,7 @@ prompt_grb_setup() {
     pc[path]='Cyan'
     pc[shortpath]='default'
     pc[rc]='red'
+    pc[virtualenv]='green'
     pc[scm_branch]='green'
     pc[scm_commitid]='Yellow'
     pc[scm_status_dirty]='Red'
@@ -162,8 +163,11 @@ prompt_grb_setup() {
 
     p_line="$pc[line]%y$pc[reset]"
 
-    PROMPT="$pc[divider]\$(repeat \$COLUMNS printf '-')$pc[reset]"
-    PROMPT+=
+    V_ENV=""
+    [[ ${+VIRTUAL_ENV} == "1" ]] && V_ENV="[$(basename $VIRTUAL_ENV)]"
+
+    PROMPT="$pc[divider]\$(repeat \$((\$COLUMNS-\${#V_ENV})) printf '-')$pc[reset]"
+    PROMPT+=$V_ENV
     if [ $verbose ]; then
         #PROMPT+="$pc[path]%n$pc[reset]"
         PROMPT+="$pc[host]%m$pc[reset]"
