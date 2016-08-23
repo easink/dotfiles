@@ -14,8 +14,6 @@ export WORDCHARS='*?[]~&;!$%^<>'
 
 export MAILDIR="$HOME/maildir"
 export LISTPROMPT=""
-# export DEBIAN_DIR=""
-# export REPREPRO_CONFIG_DIR=""
 # export MAILCHECK=150
 export EDITOR="/usr/bin/vim"
 export VISUAL="/usr/bin/vim"
@@ -34,6 +32,12 @@ if [ $(tty | grep -c pts) -eq 1 ]; then
     # export LANG="sv_SE.UTF-8"
 fi
 # export TERM="xterm"
+
+# pyenv
+export PATH="${HOME}/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+#
 
 autoload zsh/terminfo
 autoload -U is-at-least
