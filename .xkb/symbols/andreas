@@ -1,0 +1,11 @@
+partial
+xkb_symbols "fix" {
+
+    // include "us(intl)"
+    // name[Group1]= "Andreas";
+
+    // replace key <AC11> { [apostrophe,        quotedbl ] };
+    key <AC11> { [apostrophe,        quotedbl ] };
+    // key <AC01> { [aring,        Aring ] };
+
+};
