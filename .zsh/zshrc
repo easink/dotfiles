@@ -1,10 +1,11 @@
-[ -e $HOME/.zsh/settings      ] && source $HOME/.zsh/settings
-[ -e $HOME/.zsh/aliases       ] && source $HOME/.zsh/aliases
-# [ -e $HOME/.zsh/colour        ] && source $HOME/.zsh/colour
-[ -e $HOME/.zsh/prompt        ] && source $HOME/.zsh/prompt
-[ -e $HOME/.zsh/bindings      ] && source $HOME/.zsh/bindings
-[ -e $HOME/.zsh/completion    ] && source $HOME/.zsh/completion
-[ -d $HOME/.zsh/plugins/      ] && for plugin in $HOME/.zsh/plugins/*(.)zsh; do
+[[ -e $HOME/.zsh/settings_host ]] && source $HOME/.zsh/settings_host
+[[ -e $HOME/.zsh/settings      ]] && source $HOME/.zsh/settings
+[[ -e $HOME/.zsh/aliases       ]] && source $HOME/.zsh/aliases
+# [ -e $HOME/.zsh/colour        ]] && source $HOME/.zsh/colour
+[[ -e $HOME/.zsh/prompt        ]] && source $HOME/.zsh/prompt
+[[ -e $HOME/.zsh/bindings      ]] && source $HOME/.zsh/bindings
+[[ -e $HOME/.zsh/completion    ]] && source $HOME/.zsh/completion
+[[ -d $HOME/.zsh/plugins/      ]] && for plugin in $HOME/.zsh/plugins/*(.)zsh; do
     source $plugin
 done
 
