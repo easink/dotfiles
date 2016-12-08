@@ -35,8 +35,10 @@ BAT_CRIT=5                        # percentage of battery life marked as critica
 BAT_CRITCOL=${COL_CRIT}           # color when battery is critical
 
 # CPU config
-CPU_BASE="/sys/devices/platform/coretemp.0/hwmon/hwmon2/temp2_"
-CPU_INPUT=$CPU_BASE"input"
+# CPU_BASE="/sys/devices/platform/coretemp.0/hwmon/hwmon*/temp2_"
+# CPU_BASE=$(find /sys/devices/platform/coretemp.0/hwmon | grep _input$ | tail -1 | sed 's/input$//')
+CPU_BASE=$(echo /sys/devices/platform/coretemp.0/**/*_input([1]:s/_input/_/))
+CPU_INPUT=${CPU_BASE}"input"
 CPU_WARN=$(<$CPU_BASE"max")
 CPU_CRIT=$(<$CPU_BASE"crit")
 
@@ -117,13 +119,17 @@ fnet() {
 
 fwnet()
 {
-    percent=$(/sbin/iwconfig $WLANIF|awk -F "[ =/]*" '/Link/{printf "%d", $4*100/$5}')
-#    if   [ $percent -ge 75 ]; then print -n "^i(${ICON_DIR}/wlan_signal_full.xbm)"
-#    elif [ $percent -ge 50 ]; then print -n "^i(${ICON_DIR}/wlan_signal_mid.xbm)"
-#    elif [ $percent -ge 25 ]; then print -n "^i(${ICON_DIR}/wlan_signal_low.xbm)"
-#    else                           print -n "^i(${ICON_DIR}/wlan_signal_nil.xbm)"
-#    fi
-    print "${percent}%"
+    if [[ $(cat /sys/class/net/$WLANIF/carrier) -eq 1 ]]; then
+        percent=$(/sbin/iwconfig $WLANIF|awk -F "[ =/]*" '/Link/{printf "%d", $4*100/$5}')
+#       if   [ $percent -ge 75 ]; then print -n "^i(${ICON_DIR}/wlan_signal_full.xbm)"
+#       elif [ $percent -ge 50 ]; then print -n "^i(${ICON_DIR}/wlan_signal_mid.xbm)"
+#       elif [ $percent -ge 25 ]; then print -n "^i(${ICON_DIR}/wlan_signal_low.xbm)"
+#       else                           print -n "^i(${ICON_DIR}/wlan_signal_nil.xbm)"
+#       fi
+        print "${percent}%"
+    else
+        print "[No carrier]"
+    fi
 }
 
 fcputemp()
