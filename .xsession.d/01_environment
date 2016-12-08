@@ -11,5 +11,6 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # export SETWMNAME=LG3D
 
 # export XDG_RUNTIME_DIR=$RUNDIR
+[[ -e /etc/environment ]] && source /etc/environment
 
 # vim:ft=zsh
