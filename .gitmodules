@@ -1,3 +1,6 @@
 [submodule "bin/selecta.git"]
 	path = bin/selecta.git
 	url = https://github.com/garybernhardt/selecta.git
+[submodule "/home/andreas/.fzf"]
+	path = /home/andreas/.fzf
+	url = https://github.com/junegunn/fzf.git
