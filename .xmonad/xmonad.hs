@@ -47,7 +47,8 @@ mySeperatorColor    = "#2e3436"
 -- Icon packs can be found here:
 -- http://robm.selfip.net/wiki.sh/-main/DzenIconPacks
 myBitmapsDir        = "/home/andreas/.share/icons/dzen"
-myFont              = "-*-terminus-medium-*-*-*-12-*-*-*-*-*-iso8859-1"
+-- myFont              = "-*-terminus-medium-*-*-*-12-*-*-*-*-*-iso8859-1"
+myFont              = "Terminus:size=8"
 -- }}}
 
 
@@ -63,8 +64,8 @@ main = do
         , normalBorderColor  = myNormalBGColor
         , focusedBorderColor = myFocusedFGColor
         , terminal           = "x-terminal-emulator"
-        , workspaces         = ["main","net","www"]
-                               ++ map show [4..9]
+        , workspaces         = ["main","www"]
+                               ++ map show [3..9]
 --         , defaultGaps        = [(16,0,0,0)]
         , manageHook         = manageHook defaultConfig <+> myManageHook <+> manageDocks
         , logHook            = dynamicLogWithPP $ myPP statusBarPipe
@@ -78,24 +79,18 @@ main = do
 myManageHook = composeAll [
         className   =? "Firefox-bin"        --> doF(W.shift "internet"),
         className   =? "Gajim.py"           --> doF(W.shift "chat"),
- 
         title       =? "Gajim"              --> doFloat,
         title       =? "Iceweasel Preferences" --> doFloat,
         title       =? "Add-ons"            --> doFloat,
-        className   =? "Ayttm"              --> doFloat,
-        className   =? "Totem"              --> doFloat,
-        className   =? "xine"               --> doFloat,
         className   =? "Pidgin"             --> doFloat,
         className   =? "Skype"              --> doFloat,
-        className   =? "stalonetray"        --> doIgnore,
-        className   =? "trayer"             --> doIgnore
+        className   =? "stalonetray"        --> doIgnore
     ]
-
-
 
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   [ ((modMask, xK_p), spawn ("exec `dmenu_run -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
+  , ((modMask, xK_o), spawn ("exec `passmenu -l 16 -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
   , ((modMask .|. shiftMask, xK_plus ), spawn "amixer -q set PCM 2dB+")
   , ((modMask .|. shiftMask, xK_minus ), spawn "amixer -q set PCM 2dB-")
 --  , ((0, 0x1008ff12), spawn "amixer -q set Front toggle")

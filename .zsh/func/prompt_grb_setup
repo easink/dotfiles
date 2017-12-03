@@ -193,6 +193,8 @@ prompt_grb_setup() {
     #RPROMPT+=" $p_line"
 
     export PROMPT RPROMPT
+    # remove extra space
+    export ZLE_RPROMPT_INDENT=0
     precmd_functions+='prompt_wunjo_precmd'
 }
 
