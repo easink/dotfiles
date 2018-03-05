@@ -16,7 +16,9 @@ xv*cursor                               : 68
 URxvt*saveLines:    10000
 URxvt*geometry:     80x36
 
-URxvt.font:         xft:Terminus:size=8
+URxvt.font:         xft:DejaVuSansMono:medium:size=8
+URxvt.letterSpace:  0
+!URxvt.font:         xft:Terminus:size=8
 !URxvt.font:         -*-terminus-*-r-*-*-*-*-*-*-*-*-iso10646-1
 URxvt*scrollBar:    false
 URxvt*loginShell:   true
