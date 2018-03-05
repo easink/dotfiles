@@ -17,7 +17,7 @@ export LISTPROMPT=""
 # export MAILCHECK=150
 export EDITOR="/usr/bin/vim"
 export VISUAL="/usr/bin/vim"
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:${HOME}/bin:"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:${HOME}/bin:${HOME}/.local/bin"
 # export JAVA_HOME="/usr/lib/jvm/java-6-sun"
 # export CLASSPATH=".:$JAVA_HOME/class/:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -37,6 +37,13 @@ fi
 export ERL_AFLAGS="-kernel shell_history enabled"
 
 test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
+# test -s $HOME/.kiex/elixirs/elixir-1.6.0.env && source $HOME/.kiex/elixirs/elixir-1.6.0.env
+
+# yarn
+export PATH="${PATH}:$(yarn global bin)"
+
+# golang
+export PATH="${PATH}:${HOME}/go/bin"
 
 # pyenv
 # export PATH="${HOME}/.pyenv/bin:$PATH"
@@ -87,7 +94,7 @@ setopt HIST_VERIFY
 setopt HIST_REDUCE_BLANKS
 
 # setopt RM_STAR_WAIT
-setopt FLOW_CONTROL         # don't ignore ^S/^Q
+setopt FLOW_CONTROL         # dont ignore ^S/^Q
 setopt LONGLISTJOBS         # display PID when suspending processes as well
 setopt NOTIFY               # report the status of backgrounds jobs immediately
 setopt COMPLETEINWORD       # not just at the end
