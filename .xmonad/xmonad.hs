@@ -47,8 +47,8 @@ mySeperatorColor    = "#2e3436"
 -- Icon packs can be found here:
 -- http://robm.selfip.net/wiki.sh/-main/DzenIconPacks
 myBitmapsDir        = "/home/andreas/.share/icons/dzen"
--- myFont              = "-*-terminus-medium-*-*-*-12-*-*-*-*-*-iso8859-1"
-myFont              = "Terminus:size=8"
+myFont              = "-*-terminus-medium-*-*-*-14-*-*-*-*-*-iso8859-1"
+-- myFont              = "Terminus:size=8"
 -- }}}
 
 
@@ -58,7 +58,7 @@ statusBarCmd= "dzen2 -p -h 16 -ta l -bg '" ++ myNormalBGColor ++ "' -fg '" ++ my
 
 main = do
     statusBarPipe <- spawnPipe statusBarCmd
-    xmonad $ defaultConfig {
+    xmonad $ docks def {
           modMask            = mod1Mask
         , borderWidth        = 1
         , normalBorderColor  = myNormalBGColor
@@ -67,12 +67,13 @@ main = do
         , workspaces         = ["main","www"]
                                ++ map show [3..9]
 --         , defaultGaps        = [(16,0,0,0)]
-        , manageHook         = manageHook defaultConfig <+> myManageHook <+> manageDocks
+        , focusFollowsMouse  = False
+        , manageHook         = manageHook def <+> myManageHook <+> manageDocks
         , logHook            = dynamicLogWithPP $ myPP statusBarPipe
-        , layoutHook         = avoidStruts $ layoutHook defaultConfig
-        , mouseBindings      = \c -> myMouse c `M.union` mouseBindings defaultConfig c
-        , keys               = \c -> myKeys c `M.union` keys defaultConfig c
---, manageHook         = manageHook defaultConfig <+> myManageHook
+        , layoutHook         = avoidStruts $ layoutHook def
+                                   , mouseBindings      = \c -> myMouse c `M.union` mouseBindings def c
+                                   , keys               = \c -> myKeys c `M.union` keys def c
+--, manageHook         = manageHook def <+> myManageHook
         }
 
 
@@ -93,6 +94,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_o), spawn ("exec `passmenu -l 16 -fn '" ++ myFont ++ "' -nb '" ++ myNormalBGColor ++ "' -nf '" ++ myNormalFGColor ++ "' -sb '" ++ myFocusedBGColor ++ "' -sf '" ++ myFocusedFGColor ++ "'`"))
   , ((modMask .|. shiftMask, xK_plus ), spawn "amixer -q set PCM 2dB+")
   , ((modMask .|. shiftMask, xK_minus ), spawn "amixer -q set PCM 2dB-")
+  , ((modMask, xK_b), sendMessage ToggleStruts)
 --  , ((0, 0x1008ff12), spawn "amixer -q set Front toggle")
 --  , ((0, 0x1008ff13), spawn "amixer -q set PCM 2dB+")
 --  , ((0, 0x1008ff11), spawn "amixer -q set PCM 2dB-")
@@ -121,7 +123,7 @@ myMouse (XConfig {XMonad.modMask = modMask}) = M.fromList $
 --    , ((modMask, button5), (\_ -> rotView False))
 --    ]
 
-myPP handle = defaultPP {
+myPP handle = def {
     ppCurrent = wrap ("^fg(" ++ myFocusedFGColor ++ ")^bg(" ++ myFocusedBGColor ++ ")^p(4)") "^p(4)^fg()^bg()",
     ppUrgent = wrap ("^fg(" ++ myUrgentFGColor ++ ")^bg(" ++ myUrgentBGColor ++ ")^p(4)") "^p(4)^fg()^bg()",
     ppVisible = wrap ("^fg(" ++ myNormalFGColor ++ ")^bg(" ++ myNormalBGColor ++ ")^p(4)") "^p(4)^fg()^bg()",
