@@ -2,4 +2,4 @@
 
 xrdb -merge ~/.Xdefaults
 
-# vim:ft=zsh#
+# vim:ft=zsh

@@ -10,3 +10,4 @@
 # xset r rate 270 28
 # xgamma -rgamma 1.250 -ggamma 1.290 -bgamma 1.400
 # xbacklight -set 10
+
