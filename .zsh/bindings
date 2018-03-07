@@ -1,0 +1,17 @@
+# vim: ft=zsh:
+bindkey -v
+
+# Ctrl - Key
+bindkey '^R' history-incremental-search-backward    # Search backward in history
+
+# Alt - Key
+
+# Esc - Key
+bindkey -M viins "^[."  insert-last-word
+bindkey -M viins "^[,"  insert-last-word-prior
+bindkey -M viins "^[/"  jump-around-directory
+bindkey -M viins "^[?"  list-directory-stack
+bindkey -M viins "^[;"  copy-earlier-word
+bindkey -M viins "^[\t" urxvt-scrollback-buffer-words-prefix
+bindkey -M viins "^[[Z" urxvt-scrollback-buffer-words-anywhere
+bindkey -M viins "^[." insert-last-word             # Insert last word from prev command
