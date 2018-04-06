@@ -38,9 +38,10 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 
 test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
 # test -s $HOME/.kiex/elixirs/elixir-1.6.0.env && source $HOME/.kiex/elixirs/elixir-1.6.0.env
+. "${HOME}/kerl/20.3/activate"
 
 # yarn
-export PATH="${PATH}:$(yarn global bin)"
+export PATH="${PATH}:$(yarn global bin --offline)"
 
 # golang
 export PATH="${PATH}:${HOME}/go/bin"
