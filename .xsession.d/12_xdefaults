@@ -2,4 +2,7 @@
 
 xrdb -merge ~/.Xdefaults
 
+# volume / backlight keys
+xbindkeys
+
 # vim:ft=zsh
