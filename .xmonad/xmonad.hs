@@ -30,6 +30,7 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import Data.Ratio
 import Graphics.X11
+import Graphics.X11.ExtraTypes.XF86
 import System.IO
 
 import System.Exit
@@ -98,6 +99,14 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 --  , ((0, 0x1008ff12), spawn "amixer -q set Front toggle")
 --  , ((0, 0x1008ff13), spawn "amixer -q set PCM 2dB+")
 --  , ((0, 0x1008ff11), spawn "amixer -q set PCM 2dB-")
+  , ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+  , ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -1000")
+  , ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +1000")
+--  , ((0, xF86XK_AudioPrev), spawn "")
+--  , ((0, xF86XK_AudioPlay), spawn "")
+--  , ((0, xF86XK_AudioNext), spawn "")
+  , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 10")
+  , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 10")
   ]
  
 -- myPromptConfig = defaultXPConfig
