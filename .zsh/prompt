@@ -6,3 +6,4 @@ autoload -U promptinit
 promptinit
 prompt grb
 
+export ZLE_RPROMPT_INDENT=0

@@ -14,7 +14,7 @@ alias gl="git l"
 alias gla="git l --all"
 alias glah="git l --all | head"
 alias gls="git ls-files"
-alias ge='vim "$(git ls-files | selecta)"'
+alias ge='vim "$(git ls-files | fzf)"'
 alias gd="git diff"
 alias gf="git fetch"
 alias gfa="git fetch --all"
@@ -27,11 +27,18 @@ alias gcm="git commit -v"
 alias gca="git commit -av"
 alias gclean="git clean -xfd"
 
+# elixir/nvim
+alias nvim='MIX_ENV=edit nvim'
+
 # tmux
 alias t="tmux"
 alias ta="tmux attach"
-alias ts='tmux attach -t "$(tmux ls| selecta | cut -d: -f1)"'
+alias ts='tmux attach -t "$(tmux ls| fzf | cut -d: -f1)"'
 alias tls="tmux ls"
+
+# misc
+alias python=python3
+alias pylint=pylint3
 
 # Aliases
 #function t() {
@@ -47,4 +54,3 @@ alias tls="tmux ls"
 #    ack --group --color $* | less -r +k
 #}
 # ------------------------------------------------
-
