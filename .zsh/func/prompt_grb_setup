@@ -166,7 +166,8 @@ prompt_grb_setup() {
     V_ENV=""
     [[ ${+VIRTUAL_ENV} == "1" ]] && V_ENV="[$(basename $VIRTUAL_ENV)]"
 
-    PROMPT="$pc[divider]\$(repeat \$((\$COLUMNS-\${#V_ENV})) printf '-')$pc[reset]"
+    # PROMPT="$pc[divider]\$(repeat \$((\$COLUMNS-\${#V_ENV})) printf '-')$pc[reset]$prompt_newline"
+    PROMPT="$pc[divider]\$(printf '-%n' {1..\$((COLUMNS-\${#V_ENV}))})$pc[reset]$prompt_newline"
     PROMPT+=$V_ENV
     if [ $verbose ]; then
         #PROMPT+="$pc[path]%n$pc[reset]"
@@ -175,8 +176,7 @@ prompt_grb_setup() {
     #PROMPT+="$pc[path]%(2~.%~.%/)$pc[reset]"
     #PROMPT+="\$(prompt_wunjo_scm_status)"
     #PROMPT+="%(?.. $pc[rc]exited %1v$pc[reset])"
-#    PROMPT+="
-#"
+    #PROMPT+=" #"
     #PROMPT+="($pc[hist]%h$pc[reset])"
     PROMPT+=":$pc[path]%~$pc[reset]"
     #PROMPT+=":$pc[shortpath]%1~$pc[reset]"
@@ -194,7 +194,7 @@ prompt_grb_setup() {
 
     export PROMPT RPROMPT
     # remove extra space
-    export ZLE_RPROMPT_INDENT=0
+    # export ZLE_RPROMPT_INDENT=0
     precmd_functions+='prompt_wunjo_precmd'
 }
 
