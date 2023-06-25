@@ -5,7 +5,7 @@
 # Basic stuff
 EDITOR=vim
 
-export RUST_SRC_PATH=/home/andreas/source/rust-nightly/src
+# export RUST_SRC_PATH=/home/andreas/source/rust-nightly/src
 
 # Configure colors, if available.
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -146,4 +146,3 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 typeset -A DISKS
 ###
@@ -23,7 +23,7 @@ ICON_DIR="${HOME}/.share/icons/dzen"
 NETWORK_INTERFACE=eth1
 NET_DOWN_MAX=55
 NET_UP_MAX=14
-WLANIF=wlan0
+WLANIF=wlp58s0
 MAILDIR=~/mail/GmailMain
 
 # Battery config
@@ -98,7 +98,7 @@ fdisk() {
     local rstr tstr i sep
     for i in ${(k)DISKS}; do
         tstr=$(print `df -h $DISKS[$i]|sed -ne 's/^.* \([0-9]*\)% .*/\1/p'` 100 | \
-            dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG -l "${i}" -nonl | \
+            gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG -l "${i}" -nonl | \
             sed 's/[0-9]\+%//g;s/  / /g')
         if [ ! -z "$rstr" ]; then
             sep=${SEPERATOR}
@@ -120,7 +120,7 @@ fnet() {
 fwnet()
 {
     if [[ $(cat /sys/class/net/$WLANIF/carrier) -eq 1 ]]; then
-        percent=$(/sbin/iwconfig $WLANIF|awk -F "[ =/]*" '/Link/{printf "%d", $4*100/$5}')
+        percent=$(iwconfig $WLANIF|awk -F "[ =/]*" '/Link/{printf "%d", $4*100/$5}')
 #       if   [ $percent -ge 75 ]; then print -n "^i(${ICON_DIR}/wlan_signal_full.xbm)"
 #       elif [ $percent -ge 50 ]; then print -n "^i(${ICON_DIR}/wlan_signal_mid.xbm)"
 #       elif [ $percent -ge 25 ]; then print -n "^i(${ICON_DIR}/wlan_signal_low.xbm)"
@@ -160,7 +160,7 @@ fcputemp()
 fcpu()
 {
     print -n "^i(${ICON_DIR}/cpu2.xpm)"
-    dzen2-gcpubar -c 2 -bg $BAR_BG -fg $BAR_FG -w $BAR_HW -h $BAR_HH | tail -n1 | tr -d '\n'
+    gcpubar -c 2 -bg $BAR_BG -fg $BAR_FG -w $BAR_HW -h $BAR_HH | tail -n1 | tr -d '\n'
 }
 
 fmail() {
@@ -186,7 +186,7 @@ fbattery() {
             [[ $bat_perc -le $BAT_CRIT ]] && color=$BAT_CRITCOL
             print -n "^fg($COL_WARN)${bat_perc}^fg()%"
         fi
-        print $bat_perc | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $color -bg $BAR_BG
+        print $bat_perc | gdbar -h $BAR_HH -w $BAR_HW -fg $color -bg $BAR_BG
     fi
 }
 
@@ -197,7 +197,7 @@ fvolume() {
 #    VOLCUR=$(($VOLCUR+1))
     print -n "^i(${ICON_DIR}/volume.xbm)"
 #    print -n " ${VOLCUR} "
-    print $VOLCUR | dzen2-gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
+    print $VOLCUR | gdbar -h $BAR_HH -w $BAR_HW -fg $BAR_FG -bg $BAR_BG
 #    print $VOLCUR
 }
 
@@ -234,10 +234,10 @@ while true; do
     # Disk usage
 #    echo -n "${disk_usage}${SEPERATOR}"
 #    # Network
-#    echo $net_rates[1] | dzen2-gdbar -nonl -s v -w $BAR_VW -h $BAR_VH -min 0 \
+#    echo $net_rates[1] | gdbar -nonl -s v -w $BAR_VW -h $BAR_VH -min 0 \
 #        -max $NET_DOWN_MAX -fg $BAR_FG -bg $BAR_BG
 #    echo -n " "
-#    echo $net_rates[2] | dzen2-gdbar -nonl -s v -w $BAR_VW -h $BAR_VH -min 0 \
+#    echo $net_rates[2] | gdbar -nonl -s v -w $BAR_VW -h $BAR_VH -min 0 \
 #        -max $NET_UP_MAX -fg $BAR_FG -bg $BAR_BG
 #    echo -n "${SEPERATOR}"
 #    # Mail notification

@@ -1,1 +1,2 @@
-xrandr --dpi 154
+# xrandr --dpi 154
+xrandr --dpi 100

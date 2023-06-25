@@ -18,10 +18,12 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutHints ( layoutHints )
 import XMonad.Layout.ToggleLayouts
 
-import XMonad.Hooks.DynamicLog   ( PP(..), dynamicLogWithPP, dzenColor, wrap, defaultPP )
+-- import XMonad.Hooks.DynamicLog   ( PP(..), dynamicLogWithPP, dzenColor, wrap, defaultPP )
+import XMonad.Hooks.DynamicLog   ( PP(..), dynamicLogWithPP, dzenColor, wrap )
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.ManageDocks
-import XMonad.Prompt             ( defaultXPConfig, XPConfig(..), XPPosition(..) )
+-- import XMonad.Prompt             ( defaultXPConfig, XPConfig(..), XPPosition(..) )
+import XMonad.Prompt             ( XPConfig(..), XPPosition(..) )
 import XMonad.Prompt.Shell       ( shellPrompt )
 import XMonad.Util.Run
 
@@ -64,7 +66,7 @@ main = do
         , borderWidth        = 1
         , normalBorderColor  = myNormalBGColor
         , focusedBorderColor = myFocusedFGColor
-        , terminal           = "x-terminal-emulator"
+        , terminal           = "urxvt"
         , workspaces         = ["main","www"]
                                ++ map show [3..9]
 --         , defaultGaps        = [(16,0,0,0)]
@@ -82,10 +84,10 @@ myManageHook = composeAll [
         className   =? "Firefox-bin"        --> doF(W.shift "internet"),
         className   =? "Gajim.py"           --> doF(W.shift "chat"),
         title       =? "Gajim"              --> doFloat,
-        title       =? "Iceweasel Preferences" --> doFloat,
         title       =? "Add-ons"            --> doFloat,
         className   =? "Pidgin"             --> doFloat,
         className   =? "Skype"              --> doFloat,
+        className   =? "pinentry-qt"        --> doFloat,
         className   =? "stalonetray"        --> doIgnore
     ]
 

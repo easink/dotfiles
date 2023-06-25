@@ -15,9 +15,9 @@ export WORDCHARS='*?[]~&;!$%^<>'
 export MAILDIR="$HOME/maildir"
 export LISTPROMPT=""
 # export MAILCHECK=150
-export EDITOR="/usr/bin/vim"
-export VISUAL="/usr/bin/vim"
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:${HOME}/bin:${HOME}/.local/bin"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export PATH="${PATH}:${HOME}/bin:${HOME}/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 # export JAVA_HOME="/usr/lib/jvm/java-6-sun"
 # export CLASSPATH=".:$JAVA_HOME/class/:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -35,16 +35,20 @@ fi
 
 # erlang/elixir
 export ERL_AFLAGS="-kernel shell_history enabled"
+export PATH="${PATH}:${HOME}/.mix/escripts"
 
-test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
-# test -s $HOME/.kiex/elixirs/elixir-1.6.0.env && source $HOME/.kiex/elixirs/elixir-1.6.0.env
-. "${HOME}/kerl/20.3/activate"
+# test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
+# # test -s $HOME/.kiex/elixirs/elixir-1.6.0.env && source $HOME/.kiex/elixirs/elixir-1.6.0.env
+# . "${HOME}/kerl/22.1.1/activate"
 
 # yarn
-export PATH="${PATH}:$(yarn global bin --offline)"
+# export PATH="${PATH}:$(yarn global bin --offline)"
 
 # golang
-export PATH="${PATH}:${HOME}/go/bin"
+# export PATH="${PATH}:${HOME}/go/bin"
+
+# rust
+# export PATH="${PATH}:${HOME}/.cargo/bin"
 
 # pyenv
 # export PATH="${HOME}/.pyenv/bin:$PATH"
@@ -116,4 +120,3 @@ fi
 # bindkey '^R' history-incremental-search-backward
 # Insert last word from prev command
 # bindkey "^[." insert-last-word
-

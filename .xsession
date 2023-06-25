@@ -1,6 +1,7 @@
-#!/bin/zsh --login
+#!/run/current-system/sw/bin/zsh --login
+#####!/usr/bin/env zsh --login
 
-set -u
+# set -u
 # set -x
 
 for script in $(run-parts --list $HOME/.xsession.d); do
@@ -9,4 +10,6 @@ for script in $(run-parts --list $HOME/.xsession.d); do
   echo I: done sourcing ${script}... >&2
 done
 
-exit 0
+# exec xmonad
+
+# exit 0

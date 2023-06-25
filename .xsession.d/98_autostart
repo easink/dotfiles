@@ -1,6 +1,6 @@
 # autostart
 
-/usr/bin/unclutter &
-/usr/bin/dunst &
+unclutter &
+dunst &
 
 # vim:ft=zsh

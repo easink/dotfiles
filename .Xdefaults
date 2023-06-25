@@ -16,7 +16,7 @@ xv*cursor                               : 68
 URxvt*saveLines:    10000
 URxvt*geometry:     80x36
 
-URxvt.font:         xft:DejaVuSansMono:medium:size=8
+URxvt.font:         xft:DejaVuSansMono:medium:size=11
 URxvt.letterSpace:  0
 !URxvt.font:         xft:Terminus:size=8
 !URxvt.font:         -*-terminus-*-r-*-*-*-*-*-*-*-*-iso10646-1
@@ -237,7 +237,7 @@ rofi.color-window:                   #babdb6,#2e3436
 ! "Run command to execute" Set from: Default
 ! rofi.run-command:                    {cmd}
 ! "Command to get extra run targets" Set from: Default
-! rofi.run-list-command:               
+! rofi.run-list-command:
 ! "Run command to execute that runs in shell" Set from: Default
 ! rofi.run-shell-command:              {terminal} -e {cmd}
 ! "Command executed on accep-entry-custom for window modus" Set from: Default
@@ -273,7 +273,7 @@ rofi.color-window:                   #babdb6,#2e3436
 ! "Padding within rows" Set from: Default
 ! rofi.line-padding:                   1
 ! "Pre-set filter" Set from: Default
-! rofi.filter:                         
+! rofi.filter:
 ! "Separator style (none, dash, solid)" Set from: Default
 ! rofi.separator-style:                dash
 ! "Hide scroll-bar" Set from: Default
@@ -409,14 +409,14 @@ rofi.color-window:                   #babdb6,#2e3436
 ! "Custom Keybinding 19" Set from: Default
 ! rofi.kb-custom-19:                   Alt+parenleft
 ! "The display name of this browser" Set from: Default
-! rofi.display-ssh:                    
+! rofi.display-ssh:
 ! "The display name of this browser" Set from: Default
-! rofi.display-run:                    
+! rofi.display-run:
 ! "The display name of this browser" Set from: Default
-! rofi.display-drun:                   
+! rofi.display-drun:
 ! "The display name of this browser" Set from: Default
-! rofi.display-window:                 
+! rofi.display-window:
 ! "The display name of this browser" Set from: Default
-! rofi.display-windowcd:               
+! rofi.display-windowcd:
 ! "The display name of this browser" Set from: Default
-! rofi.display-combi:                  
+! rofi.display-combi:
