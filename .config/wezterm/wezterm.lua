@@ -74,9 +74,11 @@ local my_colors   = {
 
 return {
     font = wezterm.font(
-        'UbuntuSansMono Nerd Font Mono',
+    -- 'UbuntuSansMono Nerd Font Mono',
+        'DejaVuSansM Nerd Font Mono',
         {
             -- stretch = 'Expanded',
+            -- stretch = 'Normal',
             weight = 'Regular',
         }
     ),
