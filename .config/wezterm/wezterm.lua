@@ -17,10 +17,9 @@ local col_blue    = '#268bd2'
 local col_cyan    = '#2aa198'
 local col_green   = '#859900'
 
-local colors      = {
+local my_colors   = {
     foreground    = col_base00,
     background    = col_base03,
-
     cursor_border = col_base1,
     cursor_bg     = col_base01,
     cursor_fg     = col_base1,
@@ -47,16 +46,43 @@ local colors      = {
     }
 }
 
+-- local mustang_colors = {
+--     background = '#1a1a1a',
+--     foreground = '#ffffff',
+
+--     ansi       = {
+--         '#000000',
+--         '#ff6565',
+--         '#93d44f',
+--         '#eab93d',
+--         '#204a87',
+--         '#ce5c00',
+--         '#89b6e2',
+--         '#cccccc'
+--     },
+--     brights    = {
+--         '#555753',
+--         '#ff8d8d',
+--         '#c8e7a8',
+--         '#ffc123',
+--         '#3465a4',
+--         '#f57900',
+--         '#46a4ff',
+--         '#ffffff'
+--     }
+-- }
+
 return {
     font = wezterm.font(
-        'Inconsolata Nerd Font Mono',
+        'UbuntuSansMono Nerd Font Mono',
         {
-            stretch = 'Expanded',
+            -- stretch = 'Expanded',
             weight = 'Regular',
         }
     ),
-    font_size = 14.0,
-    colors = colors,
+    font_size = 11.0,
+    colors = my_colors,
+    -- color_scheme = 'X::Erosion (terminal.sexy)',
     keys = {
         { key = 's', mods = 'ALT', action = wezterm.action.Search 'CurrentSelectionOrEmptyString' }
     },
